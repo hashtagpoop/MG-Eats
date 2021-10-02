@@ -1,0 +1,169 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="A quick and casual patty-flipping establishment based in Sierra Madre. Our mission - feeding a hungry person one mini burger at a time!"
+    />
+    <meta name="author" content="K&R Design" />
+
+    <title>Recipes</title>
+
+    <!-- Custom styles -->
+    <link href="./static/main.css" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./static/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./static/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./static/favicon/favicon-16x16.png"
+    />
+
+    <!-- AOS styles -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  </head>
+
+  <body>
+<div id="receipeApp">
+
+<!-- ******************** HEADER / NAV ******************** -->
+<header>
+
+  <a class="navbar-brand" href="index.html">
+    <img
+      id="nav-logo"
+      src="./static/images/BitezLogo.svg"
+      alt="Cartoon character eating over the word Bitez."
+    />
+  </a>
+
+  <nav class="navbar fixed-top navbar-expand-lg fixed-top" id="nav">
+    <div>
+      <!-- Mobile Hamburger Icon -->
+      <div
+        @click="sideMenu = true"
+        class="hamburger-menu d-block d-lg-none"
+      >
+        <img
+          src="./static/images/hamburger-menu.png"
+          alt="Hamburger cartoon icon"
+        />
+      </div>
+
+      <!-- Desktop Nav -->
+      <div class="collapse navbar-collapse" id="">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#hero"
+              aria="Links to Bitez burger landing page"
+              >Home</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#about"
+              aria="Links to Bitez burger about section"
+              >About</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#menu"
+              aria="Links to Bitez burger menu"
+              >Menu</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#gallery"
+              aria="Links to Bitez burger gallery section"
+              >Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="https://www.clover.com/online-ordering/bitez-sierra-madre"
+              aria="Links to Clover.com to order from Bitez online"
+              target="_blank"
+              >Order Now</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- ************************ RECIPES ************************ -->
+<section id="receipes">
+
+  <div class="recipe-type-section" v-for="type in types">
+    <h1>{{ type }}</h1>
+    
+    <div class="recipe-type-items">
+
+    </div>
+  </div>
+
+</section>
+
+<!-- *********************** FOOTER *********************** -->
+<footer id="footer">
+  <p class="copyright-info">
+    Copyright &copy;2021 M&G Eats. All rights reserved.
+  </p>
+</footer>
+</div>
+
+<!-- AOS insert -->
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+AOS.init();
+</script>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#receipeApp",
+        components: {
+          // agile: VueAgile,
+        },
+        delimiters: ["[[", "]]"],
+        data: {
+          types: ["Breakfast", "Lunch", "Dinner", "Snacks", "Dessert"],
+        },
+        methods: {
+          // loadLocations: function () {
+          //   fetch("https://ruoyuchen.pythonanywhere.com/googlesheets", {
+          //     method: "GET",
+          //     mode: "cors",
+          //   })
+          //     .then((response) => response.json())
+          //     .then((data) => {
+          //       console.log(data);
+          //       this.locations = data.locations;
+          //     });
+          // },
+        },
+      });
+    </script>
+  </body>
+</html>
