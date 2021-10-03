@@ -1,0 +1,45 @@
+/* FONTS
+    font-family: 'Courier Prime', monospace;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Dancing Script', cursive;
+
+    /* Global styles
+------------------------------------*/
+:root {
+    --raincloud: #343434;
+    --whitemocha: #fcfaf9;
+    --champagnepink: #F7E1D7;
+    --cedarchest: #BA6355;
+    --mahogany: #91473B;
+    --minty: #DEDBD2;
+    --morninggreen: #8BA78D;
+    --deepseagreen: #4A5759;
+    --boxShadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1),
+      0 10px 10px -10px rgba(0, 0, 0, 0.04);
+  }
+
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+  
+body {
+    background: var(--tan);
+    overflow-x: hidden;
+  }
+  
+  /* Prevent horizontal scrolling */
+#homeApp {
+    overflow-x: hidden;
+  }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; /*doesn't let padding or margin change size*/
+}
+
+* {
+  -ms-overflow-style: none;
+  font-family: "Raleway", sans-serif;
+}
