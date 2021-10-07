@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -14,8 +14,8 @@
     <title>Recipes</title>
 
     <!-- Custom styles -->
-    <link href="./static/main.css" rel="stylesheet" />
-    <link href="./static/recipe-modal.css" rel="stylesheet" />
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="../static/recipe-modal.css" rel="stylesheet" />
 
 
     <!-- Favicon -->
@@ -41,90 +41,60 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
 
-  <body>
-<div id="receipeApp">
+  <body style="background-color: var(--minty); margin:0;">
+<div id="recipeApp">
 
 <!-- ******************** HEADER / NAV ******************** -->
-<header>
+<header class="container">
 
-  <a class="navbar-brand" href="index.html">
-    <img
-      id="nav-logo"
-      src="./static/images/BitezLogo.svg"
-      alt="Cartoon character eating over the word Bitez."
-    />
-  </a>
+  <h1>Recipes</h1>
 
-  <nav class="navbar fixed-top navbar-expand-lg fixed-top" id="nav">
-    <div>
-      <!-- Mobile Hamburger Icon -->
-      <div
-        @click="sideMenu = true"
-        class="hamburger-menu d-block d-lg-none"
-      >
-        <img
-          src="./static/images/hamburger-menu.png"
-          alt="Hamburger cartoon icon"
-        />
-      </div>
-
-      <!-- Desktop Nav -->
-      <div class="collapse navbar-collapse" id="">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#hero"
-              aria="Links to Bitez burger landing page"
-              >Home</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#about"
-              aria="Links to Bitez burger about section"
-              >About</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#menu"
-              aria="Links to Bitez burger menu"
-              >Menu</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#gallery"
-              aria="Links to Bitez burger gallery section"
-              >Gallery</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="https://www.clover.com/online-ordering/bitez-sierra-madre"
-              aria="Links to Clover.com to order from Bitez online"
-              target="_blank"
-              >Order Now</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <nav class="navbar">
+    <!-- Desktop Nav -->
+    <ul class="">
+      <li class="nav-item">
+        <a>Home</a>
+      </li>
+      <li class="nav-item">
+        <button>Add Recipe</button>
+      </li>
+      <li class="nav-item">
+        <button>Ingredients List</button>
+      </li>
+    </ul>
   </nav>
+</header>
+
+<!-- ************************ FILTERS ************************ -->
+<section class="container filter-container">
+.
+</section>
+
 
 <!-- ************************ RECIPES ************************ -->
-<section id="receipes">
+<section id="recipes" class="container">
 
-  <div class="recipe-type-section" v-for="type in types">
-    <h1>{{ type }}</h1>
-    
-    <div class="recipe-type-items">
+  <div class="recipe-type-section" v-for="mealType in types">
 
-      <div class="recipe-item">
+    <details open>
+      <summary>[[ mealType ]]</summary>
 
+      <div class="recipe-type-items">
+        <div v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
+          <div class="recipe-spotlight">
+            <img :src=" '../static/assets/recipes/' + recipe.ImageName "/>
+            <div class="hover-information">
+              <p>Prep Time: [[ recipe.PrepTime]]</p>
+            </div>
+          </div>
+          <div class="recipe-details">
+            <h3 class="recipe-title">[[ recipe.Title ]]</h3>
+          </div>
+        </div>
       </div>
-      
-    </div>
+
+    </details>
+
   </div>
 
 </section>
@@ -148,13 +118,117 @@ AOS.init();
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script>
       var app = new Vue({
-        el: "#receipeApp",
+        el: "#recipeApp",
         components: {
           // agile: VueAgile,
         },
         delimiters: ["[[", "]]"],
         data: {
-          types: ["Breakfast", "Lunch", "Dinner", "Snacks", "Dessert"],
+          types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
+          recipes: [
+            {
+              Title: "Creamed Corn",
+              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
+              Instructions: [
+                "(1) Melt butter under medium heat",
+                "(2) Mix flour into melted butter until paste forms",
+                "(3) Slowly mix in half & half, stirring in between to ensure mixture stays thick",
+                "(4) Continue stirring over heat until thickened & smooth",
+                "(5) Add corn & mix for 3 minutes",
+                "(6) Add salt & pepper to taste"
+              ], 
+              PrepTime: "5m",
+              CookTime: "15m",
+              Serves: 6,
+              Tags: ["italian", "modern"],
+              ImageName: "0-Creamed Corn.jpg",
+              Type: "Breakfast"
+            },
+            {
+              Title: "Dark Chocolate Brownies",
+              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
+              Instructions: [
+                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
+                "(2) Pour mixture into medium bowl",
+                "(3) With a wire whisk, stir in eggs one at a time until well combined",
+                "(4) Stir in vanilla extract",
+                "(5) Add flour & salt, & whisk until well combined",
+                "(6) Stir in remaining 1/3 cup chocolate",
+                "(7) Pour mixture into a greased 8 inch square baking pan",
+                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
+                "(9) Cool in pan on wire rack",
+              ], 
+              PrepTime: "10m",
+              CookTime: "40m",
+              Serves: 16,
+              Tags: [],
+              ImageName: "1-Dark Chocolate Brownies.jpg",
+              Type: "Dessert"
+            },
+            {
+              Title: "Dark Chocolate Brownies",
+              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
+              Instructions: [
+                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
+                "(2) Pour mixture into medium bowl",
+                "(3) With a wire whisk, stir in eggs one at a time until well combined",
+                "(4) Stir in vanilla extract",
+                "(5) Add flour & salt, & whisk until well combined",
+                "(6) Stir in remaining 1/3 cup chocolate",
+                "(7) Pour mixture into a greased 8 inch square baking pan",
+                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
+                "(9) Cool in pan on wire rack",
+              ], 
+              PrepTime: "10m",
+              CookTime: "40m",
+              Serves: 16,
+              Tags: [],
+              ImageName: "1-Dark Chocolate Brownies.jpg",
+              Type: "Dessert"
+            },
+            {
+              Title: "Dark Chocolate Brownies",
+              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
+              Instructions: [
+                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
+                "(2) Pour mixture into medium bowl",
+                "(3) With a wire whisk, stir in eggs one at a time until well combined",
+                "(4) Stir in vanilla extract",
+                "(5) Add flour & salt, & whisk until well combined",
+                "(6) Stir in remaining 1/3 cup chocolate",
+                "(7) Pour mixture into a greased 8 inch square baking pan",
+                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
+                "(9) Cool in pan on wire rack",
+              ], 
+              PrepTime: "10m",
+              CookTime: "40m",
+              Serves: 16,
+              Tags: [],
+              ImageName: "1-Dark Chocolate Brownies.jpg",
+              Type: "Dessert"
+            },
+            {
+              Title: "Dark Chocolate Brownies",
+              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
+              Instructions: [
+                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
+                "(2) Pour mixture into medium bowl",
+                "(3) With a wire whisk, stir in eggs one at a time until well combined",
+                "(4) Stir in vanilla extract",
+                "(5) Add flour & salt, & whisk until well combined",
+                "(6) Stir in remaining 1/3 cup chocolate",
+                "(7) Pour mixture into a greased 8 inch square baking pan",
+                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
+                "(9) Cool in pan on wire rack",
+              ], 
+              PrepTime: "10m",
+              CookTime: "40m",
+              Serves: 16,
+              Tags: [],
+              ImageName: "1-Dark Chocolate Brownies.jpg",
+              Type: "Dessert"
+            },
+          ]
         },
         methods: {
           // loadLocations: function () {

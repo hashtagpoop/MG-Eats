@@ -6,32 +6,26 @@
     /* Global styles
 ------------------------------------*/
 :root {
-    --raincloud: #343434;
-    --whitemocha: #fcfaf9;
-    --champagnepink: #F7E1D7;
-    --cedarchest: #BA6355;
-    --mahogany: #91473B;
-    --minty: #DEDBD2;
-    --morninggreen: #8BA78D;
-    --deepseagreen: #4A5759;
-    --boxShadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1),
-      0 10px 10px -10px rgba(0, 0, 0, 0.04);
-  }
+  --raincloud: #343434;
+  --whitemocha: #fcfaf9;
+  --champagnepink: #f7e1d7;
+  --cedarchest: #ba6355;
+  --mahogany: #91473b;
+  --minty: #dedbd2;
+  --morninggreen: #8ba78d;
+  --deepseagreen: #4a5759;
+  --boxShadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1),
+    0 10px 10px -10px rgba(0, 0, 0, 0.04);
+}
 
 html {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-  }
-  
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
 body {
-    background: var(--tan);
-    overflow-x: hidden;
-  }
-  
-  /* Prevent horizontal scrolling */
-#homeApp {
-    overflow-x: hidden;
-  }
+  overflow-x: hidden;
+}
 
 *,
 *:before,
@@ -42,4 +36,175 @@ body {
 * {
   -ms-overflow-style: none;
   font-family: "Raleway", sans-serif;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+/* RECIPES APP */
+#recipeApp header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+#recipeApp .navbar {
+  align-self: center;
+}
+
+#recipeApp .navbar ul {
+  display: flex;
+}
+
+#recipeApp .navbar ul li {
+  margin-left: 30px;
+  list-style-type: none;
+  font-size: 1.3em;
+  align-self: center;
+}
+
+#recipeApp .navbar button {
+  padding: 10px 20px;
+  background-color: var(--morninggreen);
+  color: var(--whitemocha);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 50px;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  border: 1px solid var(--deepseagreen);
+  font-weight: bolder;
+}
+
+#recipeApp .navbar button:hover {
+  background-color: #759177;
+  transform: translateY(-2px);
+}
+
+.filter-container {
+  margin: 25px 0;
+}
+
+details summary {
+  padding: 20px 0;
+  padding-left: 30px;
+  border-top: 1px solid black;
+  position: relative;
+  cursor: pointer;
+  font-size: 1.8em;
+  font-weight: bolder;
+  list-style: none;
+  color: var(--deepseagreen);
+  outline: none;
+  letter-spacing: 2px;
+}
+
+details summary:after {
+  content: "+";
+  color: black;
+  position: absolute;
+  font-size: 1.75rem;
+  line-height: 0;
+  margin-top: 0.75rem;
+  left: 0;
+  font-weight: 200;
+  transform-origin: center;
+  transition: 200ms linear;
+}
+
+details[open] summary:after {
+  transform: rotate(45deg);
+}
+
+details[open] summary ~ * {
+  animation: openSummary 0.8s ease;
+}
+
+#recipes {
+  min-height: 80vh;
+}
+
+.recipe-type-items {
+  margin: 10px 0 30px 0;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 40px;
+  row-gap: 40px;
+}
+
+.recipe-item {
+  background-color: var(--whitemocha);
+  box-shadow: var(--boxShadow);
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.recipe-item:hover {
+  transform: translateY(-10px);
+}
+
+.recipe-item:hover .hover-information {
+  opacity: 1;
+}
+
+.recipe-spotlight {
+  position: relative;
+}
+
+.recipe-item .hover-information {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  background-color: #343434be;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: bolder;
+  color: var(--whitemocha);
+}
+
+.recipe-item .hover-information p {
+  width: 50%;
+  text-align: center;
+}
+
+.recipe-item .recipe-details {
+  padding: 20px 10px;
+}
+
+.recipe-item .recipe-title {
+  margin: 0;
+  letter-spacing: 0px;
+  font-size: 1em;
+}
+
+#recipeApp footer {
+  background-color: var(--deepseagreen);
+  margin: 0;
+  margin-top: 30px;
+  padding: 30px;
+  text-align: center;
+}
+
+#recipeApp footer p {
+  margin: 0;
+}
+
+/* KEYFRAMES */
+
+@keyframes openSummary {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
