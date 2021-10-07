@@ -136,7 +136,6 @@ details[open] summary ~ * {
 
 .recipe-item {
   background-color: var(--whitemocha);
-  box-shadow: var(--boxShadow);
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   overflow: hidden;
@@ -144,6 +143,7 @@ details[open] summary ~ * {
 
 .recipe-item:hover {
   transform: translateY(-10px);
+  box-shadow: var(--boxShadow);
 }
 
 .recipe-item:hover .hover-information {
