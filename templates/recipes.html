@@ -66,8 +66,21 @@
 </header>
 
 <!-- ************************ FILTERS ************************ -->
-<section class="container filter-container">
-.
+<section class="container">
+  <ul class="filter-list">
+    <li class="filter">
+      <p class="filter-name">Clear</p>
+      <span class="filter-close">&#9866;</span>
+    </li>
+    <li v-for="filter in filters" class="filter">
+      <p class="filter-name">[[filter]]</p>
+      <span class="filter-close">&#10006;</span>
+    </li>
+    <li class="filter">
+      <p class="filter-name">Add</p>
+      <span class="filter-close">&#10010;</span>
+    </li>
+  </ul>
 </section>
 
 
@@ -80,7 +93,7 @@
       <summary>[[ mealType ]]</summary>
 
       <div class="recipe-type-items">
-        <div v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
+        <div @click="showRecipe = true" v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
           <div class="recipe-spotlight">
             <img :src=" '../static/assets/recipes/' + recipe.ImageName "/>
             <div class="hover-information">
@@ -96,6 +109,13 @@
     </details>
 
   </div>
+
+  <transition name="fade">
+    <div v-cloak>
+      <div v-if="showRecipe" @click="showRecipe = false" class="recipe-modal-backdrop"></div>
+      <RecipeModal v-if="showRecipe"></RecipeModal>
+    </div>
+  </transition>
 
 </section>
 
@@ -116,15 +136,19 @@ AOS.init();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="../static/components/view_recipe_modal.js"></script>
+    <!-- <script src="{{ url_for('static', filename='vue_table_git.js') }}"></script> -->
     <script>
       var app = new Vue({
         el: "#recipeApp",
         components: {
-          // agile: VueAgile,
+          recipemodal: RecipeModal,
         },
         delimiters: ["[[", "]]"],
         data: {
+          showRecipe: false,
           types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
+          filters: ["Italian", "Quick"],
           recipes: [
             {
               Title: "Creamed Corn",

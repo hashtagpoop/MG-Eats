@@ -1,6 +1,12 @@
 .recipe-popout {
   background-color: var(--deepseagreen);
   padding: 30px 50px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 999;
 }
 
 .recipe-popout .heading {
