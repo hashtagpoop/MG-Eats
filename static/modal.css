@@ -1,0 +1,215 @@
+/* VIEW RECIPE MODAL */
+.recipe-popout {
+  background-color: var(--deepseagreen);
+  padding: 50px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  max-width: 900px;
+  z-index: 999;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.recipe-popout .heading {
+  margin: 0;
+  font-size: 3em;
+  font-weight: lighter;
+  color: var(--whitemocha);
+}
+
+.recipe-popout .info_and_image_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 25px;
+}
+
+.recipe-popout .recipe-info {
+  display: flex;
+}
+
+.recipe-popout .recipe-info h3 {
+  margin: 0;
+}
+
+.recipe-popout .recipe-info h3:first-of-type {
+  padding-right: 10px;
+  border-right: 2px solid var(--whitemocha);
+}
+
+.recipe-popout .recipe-info h3:nth-of-type(2) {
+  padding-left: 10px;
+}
+
+.recipe-popout img {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  display: block;
+}
+
+.recipe-popout hr {
+  margin: 40px 0;
+  border: none;
+  background-image: linear-gradient(
+    to right,
+    var(--whitemocha),
+    var(--champagnepink),
+    var(--whitemocha)
+  );
+  height: 1px;
+}
+
+.recipe-popout .ingredients-list {
+  padding-left: 20px;
+  columns: 2;
+}
+
+.recipe-popout .ingredients-list li {
+  list-style-type: none;
+  position: relative;
+  color: var(--whitemocha);
+  line-height: 30px;
+  letter-spacing: 1.5px;
+}
+
+.recipe-popout .ingredients-list li::before {
+  position: absolute;
+  content: "";
+  width: 5px;
+  height: 2px;
+  background-color: var(--whitemocha);
+  top: 50%;
+  left: -15px;
+}
+
+.recipe-popout .directions ul {
+  padding-left: 10px;
+  max-height: 250px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.recipe-popout .directions ul li {
+  color: var(--whitemocha);
+  margin: 5px 0;
+  line-height: 20px;
+  letter-spacing: 1.1px;
+  list-style-type: none;
+}
+
+/* ADD RECIPE MODAL */
+.addFormContainer,
+.editFormContainer {
+  border-radius: 8px;
+  padding: 50px;
+  box-sizing: border-box;
+  background-color: #f6f7fc;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  max-width: 900px;
+  z-index: 999;
+  height: 85vh;
+  overflow: scroll;
+}
+
+.two-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+}
+
+.formTitle {
+  color: #474544;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.addFormContainer input,
+.addFormContainer select,
+.addFormContainer textarea,
+.editFormContainer input,
+.editFormContainer select,
+.editFormContainer textarea {
+  background: white;
+  border: none;
+  color: #474544;
+  font-size: 17px;
+  letter-spacing: 1px;
+  margin: 10px 0 25px 0;
+  padding: 15px 10px;
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+[type="email"]:focus,
+textarea:focus {
+  outline: none;
+}
+
+textarea {
+  line-height: 150%;
+  height: 150px;
+  resize: none;
+  overflow: scroll;
+  font: inherit;
+}
+
+.add_recipe_button,
+.delete_recipe_button,
+.close_button {
+  background: none;
+  border: solid 2px #474544;
+  color: #474544;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 0.875em;
+  font-weight: bold;
+  outline: none;
+  padding: 20px 35px;
+  text-transform: uppercase;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.add_recipe_button:hover,
+delete_recipe_button {
+  background: #474544;
+  color: #f2f3eb;
+}
+
+.close_button:hover,
+.delete_recipe_button:hover {
+  background: #df4924;
+  color: #f2f3eb;
+  border-color: #df4924;
+}
+
+/* TOAST MESSAGE */
+.toast {
+  background-color: #ffd3e2;
+  color: #df3670;
+  position: absolute;
+  min-width: 150px;
+  top: 30px;
+  right: 30px;
+  box-sizing: border-box;
+  padding: 3px 20px;
+  border-radius: 5px;
+  text-align: center;
+}

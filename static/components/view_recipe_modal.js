@@ -1,8 +1,7 @@
 var RecipeModal = {
 
     props: [
-        'notifications',
-        'active'
+        'recipe',
     ],
     data() {
         return {
@@ -15,11 +14,11 @@ var RecipeModal = {
     <div class="recipe-popout">
         <div class="info_and_image_grid">
         <div>
-            <h1 class="heading">Bacon Gouda Egg Sandwich</h1>
+            <h1 class="heading">{{ recipe.Title }}</h1>
     
             <div class="recipe-info" style="color: #F7E1D7;font-size: 1.1em;letter-spacing: 2px;line-height: 18px;margin-top:15px;">
-            <h3>Serves: 1</h3>
-            <h3>Total Time: 1h30m</h3>
+            <h3>Serves: {{ recipe.Serves }}</h3>
+            <h3>Prep Time: {{ recipe.PrepTime }}</h3>
             </div>
             
             <hr />
@@ -27,12 +26,7 @@ var RecipeModal = {
             <div>
             <h1 class="heading" style="font-size: 1.7em;">Ingredients</h1>
             <ul class="ingredients-list">
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
-                <li>lorem ipsum</li>
+                <li v-for="ingredient in recipe.Ingredients">{{ ingredient }}</li>
             </ul>
             </div>
             
@@ -41,19 +35,15 @@ var RecipeModal = {
         </div>
     
         <div>
-            <img src="https://bitezburger.com/static/gallery%20imgs/fries-close-up.jpg" />
+            <img :src=" '../static/assets/recipes/' + recipe.ImageSrc" />
         </div>
         </div>
         
         <div class="directions">
         <h1 class="heading" style="font-size: 2em;">Directions:</h1>
-        <ol>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-            <li>Nam pharetra mi eget mauris finibus, sollicitudin euismod magna faucibus mi eget mauris</li>
-            <li>Nulla port Nam pharetra mi eget mauris finibus, sollicitudin euismod magna</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-            <li>Nam pharetra mi eget mauris finibus, sollicitudin euismod magna faucibus mi eget mauris</li>
-        </ol>
+        <ul>
+            <li v-for="instruction in recipe.Instructions">{{ instruction }}</li>
+        </ul>
         </div>
     
     </div>

@@ -18,6 +18,10 @@
     0 10px 10px -10px rgba(0, 0, 0, 0.04);
 }
 
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+}
+
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -25,17 +29,11 @@ html {
 
 body {
   overflow-x: hidden;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit; /*doesn't let padding or margin change size*/
-}
-
-* {
-  -ms-overflow-style: none;
   font-family: "Raleway", sans-serif;
+}
+
+[v-cloak] {
+  display: none;
 }
 
 .container {
@@ -121,6 +119,7 @@ details summary {
   color: var(--deepseagreen);
   outline: none;
   letter-spacing: 2px;
+  user-select: none;
 }
 
 details summary:after {
@@ -154,6 +153,7 @@ details[open] summary ~ * {
   flex-wrap: wrap;
   column-gap: 40px;
   row-gap: 40px;
+  padding: 0 30px;
 }
 
 .recipe-item {
@@ -161,6 +161,7 @@ details[open] summary ~ * {
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   overflow: hidden;
+  position: relative;
 }
 
 .recipe-item:hover {
@@ -174,6 +175,7 @@ details[open] summary ~ * {
 
 .recipe-spotlight {
   position: relative;
+  cursor: pointer;
 }
 
 .recipe-item .hover-information {
@@ -206,9 +208,23 @@ details[open] summary ~ * {
   margin: 0;
   letter-spacing: 0px;
   font-size: 1em;
+  cursor: pointer;
+  display: inline-block;
 }
 
-.recipe-modal-backdrop {
+.recipe-item .elipses {
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 16px;
+  right: 10px;
+}
+
+.modal-backdrop {
   position: fixed;
   z-index: 2;
   top: 0;
@@ -228,6 +244,15 @@ details[open] summary ~ * {
 
 #recipeApp footer p {
   margin: 0;
+}
+
+/* ANIMATIONS */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 /* KEYFRAMES */

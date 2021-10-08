@@ -1,0 +1,20 @@
+@media (min-width: 992px) {
+}
+
+@media screen and (max-width: 900px) {
+  .recipe-popout {
+    width: 75%;
+  }
+  .recipe-popout img {
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .recipe-popout {
+    max-width: 500px;
+  }
+}
+
+@media screen and (max-width: 551px) {
+}
