@@ -28,7 +28,8 @@ var EditRecipeModal = {
             this.$emit('close')
         },
         removeRecipe: function() {
-            this.$emit('remove')
+            this.$emit('remove', this.Index);
+            this.hideModal();
         },
         submitUpdate: function() {
             if (this.editedIngredients) {
@@ -154,7 +155,7 @@ var EditRecipeModal = {
 
                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr;column-gap: 30px;">
                     <input type="submit" value="Update Recipe" class="add_recipe_button" />
-                    <input @click="removeRecipe" type="submit" value="Delete Recipe" class="delete_recipe_button" />
+                    <input @click="removeRecipe" type="button" value="Delete Recipe" class="delete_recipe_button" />
                     <input @click="hideModal" type="button" value="Close" class="close_button" />
                 </div>
             </form>

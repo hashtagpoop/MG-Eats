@@ -134,7 +134,7 @@
   <transition name="fade">
     <div v-cloak v-if="editRecipe">
       <div v-if="editRecipe" @click="editRecipe = false" class="modal-backdrop"></div>
-      <editmodal :recipe="activeRecipe" @submit="submitEditedRecipe" @close="editRecipe = false"></editmodal>
+      <editmodal :recipe="activeRecipe" @remove="removeRecipe" @submit="submitEditedRecipe" @close="editRecipe = false"></editmodal>
     </div>
   </transition>
 
