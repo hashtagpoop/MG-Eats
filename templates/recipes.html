@@ -254,7 +254,6 @@ AOS.init();
           },
           submitNewRecipe: function(recipeObj) {
             try {
-              
               //  make call to api and get new index
               var newIndex = 3;
               recipeObj["Index"] = newIndex
@@ -277,6 +276,18 @@ AOS.init();
               console.log("Failed to update recipe");
               console.log(error);
               this.displayToastMessage("Failed to update recipe")
+            }
+          },
+          removeRecipe: function(indexOfRecipeToBeRemoved) {
+            try {
+              currentIndexOfItem = this.recipes.findIndex(recipe => recipe.Index == indexOfRecipeToBeRemoved);
+              this.recipes.splice(currentIndexOfItem, 1);
+
+              this.displayToastMessage("Successfully removed recipe!")
+            } catch (error) {
+              console.log("Failed to remove recipe");
+              console.log(error);
+              this.displayToastMessage("Failed to remove recipe")
             }
           },
           // loadLocations: function () {
