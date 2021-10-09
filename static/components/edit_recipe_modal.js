@@ -86,7 +86,7 @@ var EditRecipeModal = {
             });
             newListOfInstructions = newListOfInstructions.map(string => string.trim());
 
-            this.Instructions = newListOfText;
+            this.Instructions = newListOfInstructions;
         },
     },
     template:   `
