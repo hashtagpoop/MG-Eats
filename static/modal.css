@@ -92,7 +92,8 @@
   scrollbar-width: none;
 }
 
-.recipe-popout .directions ul li {
+.recipe-popout .directions ul li,
+.recipe-popout .directions p {
   color: var(--whitemocha);
   margin: 5px 0;
   line-height: 20px;
@@ -101,6 +102,10 @@
 }
 
 /* ADD RECIPE MODAL */
+label {
+  display: flex;
+}
+
 .addFormContainer,
 .editFormContainer {
   border-radius: 8px;
@@ -188,7 +193,7 @@ textarea {
 }
 
 .add_recipe_button:hover,
-delete_recipe_button {
+.delete_recipe_button {
   background: #474544;
   color: #f2f3eb;
 }
@@ -212,4 +217,72 @@ delete_recipe_button {
   padding: 3px 20px;
   border-radius: 5px;
   text-align: center;
+}
+
+/* TOOLTIPS */
+.tooltip {
+  position: relative;
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-20%);
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  border: 1px solid black;
+}
+
+.tooltip:hover {
+  cursor: help;
+}
+
+.tooltip-spacing {
+  height: 15px;
+  position: relative;
+  width: 15px;
+}
+
+.tooltip-text {
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+
+.tooltip-text::after {
+  content: attr(tooltip-text);
+  background-color: rgb(105, 105, 105);
+  color: white;
+  position: absolute;
+  left: 20px;
+  top: -2px;
+  white-space: nowrap;
+  padding: 4px 7px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: lighter;
+  border-radius: 3px;
+  display: none;
+  animation: 0.4s showToolTip ease;
+}
+
+.tooltip:hover .tooltip-text::after {
+  display: block;
+}
+
+@keyframes showToolTip {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
