@@ -23,19 +23,19 @@
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="./static/favicon/apple-touch-icon.png"
+      href="../static/assets/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./static/favicon/favicon-32x32.png"
+      href="../static/assets/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="./static/favicon/favicon-16x16.png"
+      href="../static/assets/favicon-16x16.png"
     />
 
     <!-- AOS styles -->
@@ -94,11 +94,11 @@
       <summary>[[ mealType ]]</summary>
 
       <div class="recipe-type-items">
-        <div v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
+        <div v-for="recipe in recipes" v-if="recipe.Type == mealType & recipe.User == viewingUser" class="recipe-item">
           <div @click="showRecipe = true; activeRecipe=recipe" class="recipe-spotlight">
-            <img :src=" '../static/assets/recipes/' + recipe.ImageSrc "/>
+            <img :src="recipe.ImageSrc "/>
             <div class="hover-information">
-              <p>Prep Time: [[ recipe.PrepTime]]</p>
+              <p>Total Time: [[ recipe.TotalTime ]]</p>
             </div>
           </div>
           <div class="recipe-details">
@@ -113,6 +113,7 @@
   </div>
 
   <!-- *********************** MODALS AND SIDEBARS *********************** -->
+  <!-- View Modal -->
   <transition name="fade">
     <div v-cloak v-if="showRecipe">
       <div v-if="showRecipe" @click="showRecipe = false" class="modal-backdrop"></div>
@@ -121,20 +122,23 @@
     </div>
   </transition>
 
+  <!-- Add Modal -->
   <transition name="fade">
     <div v-cloak v-if="addRecipe">
       <div v-if="addRecipe" @click="addRecipe = false" class="modal-backdrop"></div>
-      <addmodal @close="addRecipe = false"></addmodal>
+      <addmodal @submit="submitNewRecipe" @close="addRecipe = false"></addmodal>
     </div>
   </transition>
 
+  <!-- Edit Modal -->
   <transition name="fade">
     <div v-cloak v-if="editRecipe">
       <div v-if="editRecipe" @click="editRecipe = false" class="modal-backdrop"></div>
-      <editmodal :recipe="activeRecipe" @close="editRecipe = false"></editmodal>
+      <editmodal :recipe="activeRecipe" @submit="submitEditedRecipe" @close="editRecipe = false"></editmodal>
     </div>
   </transition>
 
+  <!-- Toast Message -->
   <transition name="fade">
     <div class="toast" v-cloak v-if="showToast">
       <p>[[ toastMessage ]]</p>
@@ -175,6 +179,7 @@ AOS.init();
         },
         delimiters: ["[[", "]]"],
         data: {
+          viewingUser: "M&G",
           showRecipe: false,
           addRecipe: false,
           editRecipe: false,
@@ -184,6 +189,7 @@ AOS.init();
           filters: ["Italian", "Quick"],
           recipes: [
             {
+              Index: 0,
               Title: "Creamed Corn",
               Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
               Instructions: [
@@ -194,15 +200,15 @@ AOS.init();
                 "(5) Add corn & mix for 3 minutes",
                 "(6) Add salt & pepper to taste"
               ], 
-              PrepTime: "5m",
-              CookTime: "15m",
+              TotalTime: "15m",
               Serves: 6,
               Tags: ["italian", "modern"],
-              ImageSrc: "0-Creamed Corn.jpg",
+              ImageSrc: "https://theblondcook.com/wp-content/uploads/2018/10/easy-creamed-corn-4.jpg",
               Type: "Breakfast",
               User: "M&G"
             },
             {
+              Index: 1,
               Title: "Dark Chocolate Brownies",
               Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
               Instructions: [
@@ -216,77 +222,22 @@ AOS.init();
                 "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
                 "(9) Cool in pan on wire rack",
               ], 
-              PrepTime: "10m",
-              CookTime: "40m",
+              TotalTime: "40m",
               Serves: 16,
               Tags: [],
-              ImageSrc: "1-Dark Chocolate Brownies.jpg",
+              ImageSrc: "https://assets.epicurious.com/photos/5fca6f8d9014cc9a8df3d074/1:1/w_1600,c_limit/Malted_Forever_Brownies_VOG_final.jpg",
               Type: "Dessert",
               User: "M&G"
             },
             {
+              Index: 2,
               Title: "Dark Chocolate Brownies",
               Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: [
-                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
-                "(2) Pour mixture into medium bowl",
-                "(3) With a wire whisk, stir in eggs one at a time until well combined",
-                "(4) Stir in vanilla extract",
-                "(5) Add flour & salt, & whisk until well combined",
-                "(6) Stir in remaining 1/3 cup chocolate",
-                "(7) Pour mixture into a greased 8 inch square baking pan",
-                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
-                "(9) Cool in pan on wire rack",
-              ], 
-              PrepTime: "10m",
-              CookTime: "40m",
+              Instructions: "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted. (2) Pour mixture into medium bowl. With a wire whisk, stir in eggs one at a time until well combined. Stir in vanilla extract", 
+              TotalTime: "40m",
               Serves: 16,
               Tags: [],
-              ImageSrc: "1-Dark Chocolate Brownies.jpg",
-              Type: "Dessert",
-              User: "M&G"
-            },
-            {
-              Title: "Dark Chocolate Brownies",
-              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: [
-                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
-                "(2) Pour mixture into medium bowl",
-                "(3) With a wire whisk, stir in eggs one at a time until well combined",
-                "(4) Stir in vanilla extract",
-                "(5) Add flour & salt, & whisk until well combined",
-                "(6) Stir in remaining 1/3 cup chocolate",
-                "(7) Pour mixture into a greased 8 inch square baking pan",
-                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
-                "(9) Cool in pan on wire rack",
-              ], 
-              PrepTime: "10m",
-              CookTime: "40m",
-              Serves: 16,
-              Tags: [],
-              ImageSrc: "1-Dark Chocolate Brownies.jpg",
-              Type: "Dessert",
-              User: "M&G"
-            },
-            {
-              Title: "Dark Chocolate Brownies",
-              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: [
-                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
-                "(2) Pour mixture into medium bowl",
-                "(3) With a wire whisk, stir in eggs one at a time until well combined",
-                "(4) Stir in vanilla extract",
-                "(5) Add flour & salt, & whisk until well combined",
-                "(6) Stir in remaining 1/3 cup chocolate",
-                "(7) Pour mixture into a greased 8 inch square baking pan",
-                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
-                "(9) Cool in pan on wire rack",
-              ], 
-              PrepTime: "10m",
-              CookTime: "40m",
-              Serves: 16,
-              Tags: [],
-              ImageSrc: "1-Dark Chocolate Brownies.jpg",
+              ImageSrc: "https://assets.epicurious.com/photos/5fca6f8d9014cc9a8df3d074/1:1/w_1600,c_limit/Malted_Forever_Brownies_VOG_final.jpg",
               Type: "Dessert",
               User: "M&G"
             },
@@ -300,6 +251,33 @@ AOS.init();
             setTimeout(() => {
                 this.showToast = false;
             }, 1500);
+          },
+          submitNewRecipe: function(recipeObj) {
+            try {
+              
+              //  make call to api and get new index
+              var newIndex = 3;
+              recipeObj["Index"] = newIndex
+
+              this.recipes.push( recipeObj );
+              this.displayToastMessage("Successfully added recipe!")
+            } catch (error) {
+              console.log("Failed to add recipe");
+              console.log(error);
+              this.displayToastMessage("Failed to add recipe")
+            }
+          },
+          submitEditedRecipe: function(updatedRecipe) {
+            try {
+              modifiedObj = this.recipes.find(recipe => recipe.Index == updatedRecipe.Index);
+              Object.assign(modifiedObj, updatedRecipe);
+
+              this.displayToastMessage("Successfully updated recipe!")
+            } catch (error) {
+              console.log("Failed to update recipe");
+              console.log(error);
+              this.displayToastMessage("Failed to update recipe")
+            }
           },
           // loadLocations: function () {
           //   fetch("https://ruoyuchen.pythonanywhere.com/googlesheets", {
