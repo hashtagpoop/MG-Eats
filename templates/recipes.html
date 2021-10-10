@@ -94,9 +94,9 @@
       <summary>[[ mealType ]]</summary>
 
       <div class="recipe-type-items">
-        <div v-for="recipe in recipes" v-if="recipe.Type == mealType & recipe.User == viewingUser" class="recipe-item">
+        <div v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
           <div @click="showRecipe = true; activeRecipe=recipe" class="recipe-spotlight">
-            <img :src="recipe.ImageSrc "/>
+            <img :src="recipe.ImageSrc" onerror="this.src='../static/assets/404_error.svg';this.style.objectFit='unset'"/>
             <div class="hover-information">
               <p>Total Time: [[ recipe.TotalTime ]]</p>
             </div>
@@ -204,7 +204,7 @@ AOS.init();
               Serves: 6,
               Tags: ["italian", "modern"],
               ImageSrc: "https://theblondcook.com/wp-content/uploads/2018/10/easy-creamed-corn-4.jpg",
-              Type: "Breakfast",
+              Type: "Side",
               User: "M&G"
             },
             {
@@ -254,6 +254,11 @@ AOS.init();
           },
           submitNewRecipe: function(recipeObj) {
             try {
+              Object.keys(recipe).forEach(key => {
+                if(typeof(recipe[key]) == "object") {
+                  recipe[key] = JSON.stringify(recipe[key])
+                };
+              });
               //  make call to api and get new index
               var newIndex = 3;
               recipeObj["Index"] = newIndex

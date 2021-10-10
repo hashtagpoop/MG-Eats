@@ -5,15 +5,19 @@ from sqlalchemy.orm import Session
 
 import crud, models, schema_validation
 from database import SessionLocal, engine
-from routers import users, portfolio, stock
+from routers import recipes
+
+import datetime as dt
+import os
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-app.include_router(users.router)
-app.include_router(portfolio.router)
-app.include_router(stock.router)
+app.include_router(recipes.router)
+
+today = dt.datetime.today()
+development = True if os.environ.get("DATABASE_URL") == None else False
 
 
 # Dependency

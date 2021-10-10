@@ -67,7 +67,8 @@ var AddRecipeModal = {
                 var newListOfTags = this.Tags.split(delimeterRegex);
                 this.Tags = newListOfTags;
             } else {
-                console.log("No tags added");
+                this.Tags = [];
+                console.log("No tags added - returning empty list.");
             }
         },
         splitIngredients: function() {

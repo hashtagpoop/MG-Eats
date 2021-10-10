@@ -3,82 +3,48 @@ import models, schema_validation
 import datetime as dt
 
 
-# USER CRUD
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.user_id == user_id).first()
+# RECIPES CRUD - VIEWS
+def get_recipes_by_user(db: Session, user: str):
+    return db.query(models.Recipes).filter(models.Recipes.User == user).first()
 
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
-
-
-def create_user(db: Session, user: schema_validation.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    created_date = dt.datetime.today().strftime("%m-%d-%Y")
-    db_user = models.User(
-        email=user.email,
-        hashed_password=fake_hashed_password,
-        created_date=created_date,
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-
-# PORTFOLIO CRUD
-def get_portfolio_by_name(db: Session, nickname: str, owner_id: int):
+def get_recipe_by_id(db: Session, recipe_id: int):
     return (
-        db.query(models.Portfolio)
-        .filter(
-            models.Portfolio.owner_id == owner_id, models.Portfolio.nickname == nickname
-        )
+        db.query(models.Recipes).filter(models.Recipes.Recipe_id == recipe_id).first()
+    )
+
+
+def get_recipe_by_title_and_user(db: Session, recipe_user: str, recipe_title: str):
+    return (
+        db.query(models.Recipes)
+        .filter(models.Recipes.Title == recipe_title)
+        .filter(models.Recipes.User == recipe_user)
         .first()
     )
 
 
-def create_portfolio(db: Session, portfolio: schema_validation.Portfolio):
+# RECIPES CRUD - CREATE
+def create_recipe(db: Session, recipe: schema_validation.Recipes):
     created_date = dt.datetime.today().strftime("%m-%d-%Y")
-    db_portfolio = models.Portfolio(
-        nickname=portfolio.nickname,
-        owner_id=portfolio.owner_id,
-        created_date=created_date,
+    recipe_object = models.Recipes(
+        Created_date=created_date,
+        Title=recipe.Title,
+        Ingredients=recipe.Ingredients,
+        Instructions=recipe.Instructions,
+        TotalTime=recipe.TotalTime,
+        Serves=recipe.Serves,
+        Tags=recipe.Tags,
+        ImageSrc=recipe.ImageSrc,
+        Type=recipe.Type,
+        User=recipe.User,
     )
-    db.add(db_portfolio)
+    db.add(recipe_object)
     db.commit()
-    db.refresh(db_portfolio)
-    return db_portfolio
+    db.refresh(recipe_object)
+    return recipe_object
 
 
-def retrieve_portfolio(db: Session, portfolio: schema_validation.Portfolio):
-    return (
-        db.query(models.Stock)
-        .filter(models.Stock.portfolio_id == portfolio.portfolio_id)
-        .all()
-    )
+# RECIPES CRUD - UPDATE
 
 
-# STOCK CRUD
-def create_stock_item(db: Session, stock: schema_validation.StockBase):
-    db_stock = models.Stock(**stock.dict())
-    db.add(db_stock)
-    db.commit()
-    db.refresh(db_stock)
-    return db_stock
-
-
-def get_stock_in_portfolio(db: Session, stock: schema_validation.Stock):
-    return (
-        db.query(models.Stock)
-        .filter(
-            models.Stock.portfolio_id == stock.portfolio_id,
-            models.Stock.ticker == stock.ticker,
-        )
-        .first()
-    )
-
-
-def get_stocks_in_portfolio(db: Session, portfolio_id: int):
-    return (
-        db.query(models.Stock).filter(models.Stock.portfolio_id == portfolio_id).first()
-    )
+# RECIPES CRUD - DELETE

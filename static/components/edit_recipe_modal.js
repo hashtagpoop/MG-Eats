@@ -11,6 +11,7 @@ var EditRecipeModal = {
             users: ["M&G", "Karen"],
             editedIngredients: false,
             editedInstructions: false,
+            editedTags: false,
             Index: this.recipe.Index,
             Title: this.recipe.Title,
             Ingredients: this.recipe.Ingredients,
@@ -38,6 +39,9 @@ var EditRecipeModal = {
             if (this.editedInstructions) {
                 this.splitInstructions();
             };
+            if (this.editedTags) {
+                this.splitTags();
+            };
 
             var editedRecipe = { 
                 Index: this.Index,
@@ -55,6 +59,20 @@ var EditRecipeModal = {
             console.log(editedRecipe);
             this.$emit("submit", editedRecipe)            
             this.hideModal();
+        },
+        splitTags: function() {
+            if (this.Tags != "") {
+                if (this.Tags.search("\n") > -1) {
+                    var delimeterRegex = /,*\n/;
+                } else {
+                    var delimeterRegex = /,\n*/;
+                }
+                var newListOfTags = this.Tags.split(delimeterRegex);
+                this.Tags = newListOfTags;
+            } else {
+                this.Tags = [];
+                console.log("No tags - returning empty list.");
+            }
         },
         selectedType: function(event) {
             this.Type = event.target.value;
@@ -133,7 +151,7 @@ var EditRecipeModal = {
 
                 <div>
                     <label for="name">Tags</label>
-                    <input type="text" autocomplete="off" v-model="Tags" name="Tags">
+                    <input @change="editedTags=true; Tags = $event.target.value" type="text" autocomplete="off" :value="Tags" name="Tags">
                 </div>
 
                 <div>
