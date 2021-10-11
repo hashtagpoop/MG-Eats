@@ -3,9 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
+seeding = True if os.environ.get("SEEDING") == "true" else False
 development = True if os.environ.get("DATABASE_URL") == None else False
 
-if development:
+if seeding:
+    SQLALCHEMY_DATABASE_URL = "sqlite:///../data/sql_app.db"
+elif development:
     SQLALCHEMY_DATABASE_URL = "sqlite:///./data/sql_app.db"
 else:
     SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
