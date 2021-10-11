@@ -1,6 +1,9 @@
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 import crud, models, schema_validation
@@ -15,6 +18,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.include_router(recipes.router)
+app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 today = dt.datetime.today()
 development = True if os.environ.get("DATABASE_URL") == None else False

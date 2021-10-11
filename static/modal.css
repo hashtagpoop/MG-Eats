@@ -209,7 +209,7 @@ textarea {
 .toast {
   background-color: #ffd3e2;
   color: #df3670;
-  position: absolute;
+  position: fixed;
   min-width: 150px;
   top: 30px;
   right: 30px;

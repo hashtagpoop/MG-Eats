@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from enum import Enum
 from database import SessionLocal
 from typing import List
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import crud, schema_validation
 
 
@@ -11,6 +14,9 @@ router = APIRouter(
     tags=["recipes"],
     responses={404: {"description": "Recipe not found!"}},
 )
+
+templates = Jinja2Templates(directory="templates")
+print(templates)
 
 
 class UserName(str, Enum):
@@ -27,13 +33,16 @@ def get_db():
 
 
 @router.get("/", response_model=List[schema_validation.Recipes], status_code=200)
-def get_default_user(db: Session = Depends(get_db)):
+def get_default_user(request: Request, db: Session = Depends(get_db)):
     default_user = "M&G"
     recipes = crud.get_recipes_by_user(db, user=default_user)
     print(recipes)
     if recipes is None:
         raise HTTPException(status_code=404, detail="No recipes for user.")
-    return recipes
+
+    context = dict(request=request, recipes=recipes)
+
+    return templates.TemplateResponse("recipes.html", context)
 
 
 @router.get(
