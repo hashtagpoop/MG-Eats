@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Form
 from sqlalchemy.orm import Session
 from enum import Enum
-from database import SessionLocal, engine
+from database import SessionLocal
+from typing import List
 import crud, schema_validation
 
 
@@ -13,8 +14,7 @@ router = APIRouter(
 
 
 class UserName(str, Enum):
-    moose_and_goose = "MG"
-    karen = "karen"
+    Karen = "Karen"
 
 
 # Dependency
@@ -39,9 +39,31 @@ def create_recipe(recipe: schema_validation.NewRecipe, db: Session = Depends(get
     return crud.create_recipe(db=db, recipe=recipe)
 
 
-@router.get("/{user_name}", response_model=schema_validation.Recipes)
-def get_recipes_by_user(user: UserName, db: Session = Depends(get_db)):
-    recipes = crud.get_recipes_by_user(db, user_name=user)
+@router.get("/", response_model=List[schema_validation.Recipes])
+def get_default_user(db: Session = Depends(get_db)):
+    default_user = "M&G"
+    recipes = crud.get_recipes_by_user(db, user=default_user)
+    print(recipes)
+    if recipes is None:
+        raise HTTPException(status_code=404, detail="No recipes for user.")
+    return recipes
+
+
+@router.get("/{user_name}", response_model=List[schema_validation.Recipes])
+def get_recipes_by_user(user_name: UserName, db: Session = Depends(get_db)):
+    recipes = crud.get_recipes_by_user(db, user=user_name)
     if recipes is None:
         raise HTTPException(status_code=404, detail="User not found")
+    return recipes
+
+
+@router.put("/{recipe_id}", response_model=schema_validation.Recipes)
+def update_recipe_by_id(
+    recipe_id: int, db: Session = Depends(get_db), new_recipe=schema_validation.Recipes
+):
+    print(type(new_recipe))
+    print(new_recipe.dict(by_alias=True))
+    recipes = crud.update_recipe_by_id(db, recipe_id=recipe_id, new_recipe=new_recipe)
+    if recipes is None:
+        raise HTTPException(status_code=404, detail="Recipe doesn't exist")
     return recipes

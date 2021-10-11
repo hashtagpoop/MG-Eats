@@ -1,11 +1,12 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import update, delete
 import models, schema_validation
 import datetime as dt
 
 
 # RECIPES CRUD - VIEWS
 def get_recipes_by_user(db: Session, user: str):
-    return db.query(models.Recipes).filter(models.Recipes.User == user).first()
+    return db.query(models.Recipes).filter(models.Recipes.User == user).all()
 
 
 def get_recipe_by_id(db: Session, recipe_id: int):
@@ -45,6 +46,38 @@ def create_recipe(db: Session, recipe: schema_validation.Recipes):
 
 
 # RECIPES CRUD - UPDATE
+def update_recipe_by_id(
+    db: Session, recipe_id: int, new_recipe: schema_validation.Recipes
+):
+    original_recipe = (
+        db.query(models.Recipes).filter(models.Recipes.Recipe_id == recipe_id).first()
+    )
+
+    changed_values = {
+        key: val
+        for key, val in new_recipe.dict().items()
+        if new_recipe[key] != original_recipe[key]
+    }
+    assert (
+        "Recipe_id" not in changed_values.keys
+        and "Created_date" not in changed_values.keys
+    ), "A value that shouldn't be changed is trying to be updated."
+
+    query = (
+        update(models.Recipes)
+        .where(models.Recipes.Recipe_id == recipe_id)
+        .values(*changed_values)
+    )
+    updated_recipe = db.execute(query)
+
+    db.add(updated_recipe)
+    db.commit()
+    db.refresh(updated_recipe)
+    return updated_recipe
 
 
 # RECIPES CRUD - DELETE
+def delete_recipe_by_id(db: Session, recipe_id: int):
+    query = delete(models.Recipes).where(models.Recipes.Recipe_id == recipe_id)
+    db.execute(query)
+    db.commit()

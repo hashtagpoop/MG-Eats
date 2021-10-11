@@ -254,9 +254,9 @@ AOS.init();
           },
           submitNewRecipe: function(recipeObj) {
             try {
-              Object.keys(recipe).forEach(key => {
-                if(typeof(recipe[key]) == "object") {
-                  recipe[key] = JSON.stringify(recipe[key])
+              Object.keys(recipeObj).forEach(key => {
+                if(typeof(recipeObj[key]) == "object") {
+                  recipeObj[key] = JSON.stringify(recipeObj[key])
                 };
               });
               //  make call to api and get new index
