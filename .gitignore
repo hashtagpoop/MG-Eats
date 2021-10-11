@@ -1,4 +1,8 @@
 /mgEats/
 /data/
+<<<<<<< HEAD
 __pycache__
 **/__pycache__/
+=======
+__pycache__
+>>>>>>> Resolved conflicts
