@@ -48,6 +48,7 @@ var AddRecipeModal = {
             }
 
             console.log(newRecipe);
+            console.log(JSON.stringify(newRecipe))
             this.$emit("submit", newRecipe)            
             this.hideModal();
         },
