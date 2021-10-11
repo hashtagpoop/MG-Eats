@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class NewRecipe(BaseModel):
-    Title: Optional[str]
+    Title: str
     Ingredients: Optional[str]
     Instructions: Optional[str]
     TotalTime: str

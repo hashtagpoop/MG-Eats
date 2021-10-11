@@ -47,7 +47,7 @@ def create_recipe(db: Session, recipe: schema_validation.Recipes):
 
 # RECIPES CRUD - UPDATE
 def update_recipe_by_id(
-    db: Session, recipe_id: int, new_recipe: schema_validation.Recipes
+    db: Session, recipe_id: int, updated_recipe: schema_validation.Recipes
 ):
     original_recipe = (
         db.query(models.Recipes).filter(models.Recipes.Recipe_id == recipe_id).first()
@@ -55,25 +55,24 @@ def update_recipe_by_id(
 
     changed_values = {
         key: val
-        for key, val in new_recipe.dict().items()
-        if new_recipe[key] != original_recipe[key]
+        for key, val in updated_recipe.dict(exclude_unset=True).items()
+        if updated_recipe.dict()[key] != original_recipe.__dict__[key]
     }
+
     assert (
-        "Recipe_id" not in changed_values.keys
-        and "Created_date" not in changed_values.keys
+        "Recipe_id" not in changed_values.keys()
+        and "Created_date" not in changed_values.keys()
     ), "A value that shouldn't be changed is trying to be updated."
 
     query = (
         update(models.Recipes)
         .where(models.Recipes.Recipe_id == recipe_id)
-        .values(*changed_values)
+        .values(**changed_values)
     )
     updated_recipe = db.execute(query)
 
-    db.add(updated_recipe)
     db.commit()
-    db.refresh(updated_recipe)
-    return updated_recipe
+    return get_recipe_by_id(db, recipe_id=recipe_id)
 
 
 # RECIPES CRUD - DELETE
