@@ -12,7 +12,7 @@ var EditRecipeModal = {
             editedIngredients: false,
             editedInstructions: false,
             editedTags: false,
-            Index: this.recipe.Index,
+            Recipe_id: this.recipe.Recipe_id,
             Title: this.recipe.Title,
             Ingredients: this.recipe.Ingredients,
             Instructions: this.recipe.Instructions,
@@ -44,7 +44,7 @@ var EditRecipeModal = {
             };
 
             var editedRecipe = { 
-                Index: this.Index,
+                Recipe_id: this.Recipe_id,
                 Title: this.Title,
                 Ingredients: this.Ingredients,
                 Instructions: this.Instructions, 
@@ -62,11 +62,7 @@ var EditRecipeModal = {
         },
         splitTags: function() {
             if (this.Tags != "") {
-                if (this.Tags.search("\n") > -1) {
-                    var delimeterRegex = /,*\n/;
-                } else {
-                    var delimeterRegex = /,\n*/;
-                }
+                var delimeterRegex = /,|\n/g;
                 var newListOfTags = this.Tags.split(delimeterRegex);
                 this.Tags = newListOfTags;
             } else {
@@ -81,11 +77,8 @@ var EditRecipeModal = {
             this.User = event.target.value;
         },
         splitIngredients: function() {
-            if (this.Ingredients.search("\n") > -1) {
-                var delimeterRegex = /,*\n/;
-            } else {
-                var delimeterRegex = /,\n*/;
-            }
+            var delimeterRegex = /,|\n/g;
+
             var newListOfIngredients = this.Ingredients.split(delimeterRegex);
             newListOfIngredients = newListOfIngredients.filter((currentElement) => {
                 return currentElement.trim().length > 0;
@@ -98,7 +91,7 @@ var EditRecipeModal = {
             var newListOfText = [];
             var text = this.Instructions;
 
-            newListOfInstructions = text.replace(regex, "\n$1").split(/,*\n+/)
+            newListOfInstructions = text.replace(regex, "\n$1").split(/,|\n+/g)
             newListOfInstructions = newListOfInstructions.filter((currentElement) => {
                 return currentElement.trim().length > 0;
             });
@@ -156,7 +149,7 @@ var EditRecipeModal = {
 
                 <div>
                     <label for="ImageURL">Image URL</label>
-                    <input type="text" autocomplete="off" :value="ImageSrc" name="ImageURL" required>
+                    <input type="text" autocomplete="off" v-model="ImageSrc" name="ImageURL" required>
                 </div>
 
                 <div>

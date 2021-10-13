@@ -59,6 +59,9 @@ def update_recipe_by_id(
         if updated_recipe.dict()[key] != original_recipe.__dict__[key]
     }
 
+    if len(changed_values) == 0:
+        return "No changes"
+
     assert (
         "Recipe_id" not in changed_values.keys()
         and "Created_date" not in changed_values.keys()

@@ -5,10 +5,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta
-      name="description"
-      content=""
-    />
+    <meta name="description" content="" />
     <meta name="author" content="K&R Design" />
 
     <title>Recipes</title>
@@ -17,7 +14,6 @@
     <link href="../static/main.css" rel="stylesheet" />
     <link href="../static/modal.css" rel="stylesheet" />
     <link href="../static/responsive.css" rel="stylesheet" />
-
 
     <!-- Favicon -->
     <link
@@ -42,126 +38,163 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
 
-  <body style="background-color: var(--minty); margin:0;">
-<div id="recipeApp">
+  <body style="background-color: var(--minty); margin: 0">
+    <div id="recipeApp">
+      <!-- ******************** HEADER / NAV ******************** -->
+      <header class="container">
+        <h1>Recipes</h1>
 
-<!-- ******************** HEADER / NAV ******************** -->
-<header class="container">
+        <nav class="navbar">
+          <!-- Desktop Nav -->
+          <ul class="">
+            <li class="nav-item">
+              <a>Home</a>
+            </li>
+            <li class="nav-item">
+              <button @click="addRecipe = true;">&#10010; Add Recipe</button>
+            </li>
+            <li class="nav-item">
+              <button>Ingredients List</button>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
-  <h1>Recipes</h1>
+      <!-- ************************ FILTERS ************************ -->
+      <section class="container">
+        <ul class="filter-list">
+          <li class="filter">
+            <p class="filter-name">Clear</p>
+            <span class="filter-close">&#9866;</span>
+          </li>
+          <li v-for="filter in filters" class="filter">
+            <p class="filter-name">[[filter]]</p>
+            <span class="filter-close">&#10006;</span>
+          </li>
+          <li class="filter">
+            <p class="filter-name">Add</p>
+            <span class="filter-close">&#10010;</span>
+          </li>
+        </ul>
+      </section>
 
-  <nav class="navbar">
-    <!-- Desktop Nav -->
-    <ul class="">
-      <li class="nav-item">
-        <a>Home</a>
-      </li>
-      <li class="nav-item">
-        <button @click="addRecipe = true;">&#10010; Add Recipe</button>
-      </li>
-      <li class="nav-item">
-        <button>Ingredients List</button>
-      </li>
-    </ul>
-  </nav>
-</header>
+      <!-- ************************ RECIPES ************************ -->
+      <section id="recipes" class="container">
+        <div class="recipe-type-section" v-for="mealType in types">
+          <details open>
+            <summary>[[ mealType ]]</summary>
 
-<!-- ************************ FILTERS ************************ -->
-<section class="container">
-  <ul class="filter-list">
-    <li class="filter">
-      <p class="filter-name">Clear</p>
-      <span class="filter-close">&#9866;</span>
-    </li>
-    <li v-for="filter in filters" class="filter">
-      <p class="filter-name">[[filter]]</p>
-      <span class="filter-close">&#10006;</span>
-    </li>
-    <li class="filter">
-      <p class="filter-name">Add</p>
-      <span class="filter-close">&#10010;</span>
-    </li>
-  </ul>
-</section>
-
-
-<!-- ************************ RECIPES ************************ -->
-<section id="recipes" class="container">
-
-  <div class="recipe-type-section" v-for="mealType in types">
-
-    <details open>
-      <summary>[[ mealType ]]</summary>
-
-      <div class="recipe-type-items">
-        <div v-for="recipe in recipes" v-if="recipe.Type == mealType" class="recipe-item">
-          <div @click="showRecipe = true; activeRecipe=recipe" class="recipe-spotlight">
-            <img :src="recipe.ImageSrc" onerror="this.src='../static/assets/404_error.svg';this.style.objectFit='unset'"/>
-            <div class="hover-information">
-              <p>Total Time: [[ recipe.TotalTime ]]</p>
+            <div class="recipe-type-items">
+              <div
+                v-for="recipe in recipes"
+                v-if="recipe.Type == mealType"
+                class="recipe-item"
+              >
+                <div
+                  @click="showRecipe = true; activeRecipe=recipe"
+                  class="recipe-spotlight"
+                >
+                  <img
+                    :src="recipe.ImageSrc"
+                    onerror="this.src='../static/assets/404_error.svg';this.style.objectFit='unset'"
+                  />
+                  <div class="hover-information">
+                    <p>Total Time: [[ recipe.TotalTime ]]</p>
+                  </div>
+                </div>
+                <div class="recipe-details">
+                  <h3
+                    @click="showRecipe = true; activeRecipe=recipe;"
+                    class="recipe-title"
+                  >
+                    [[ recipe.Title ]]
+                  </h3>
+                  <button
+                    @click="editRecipe=true; activeRecipe=recipe;"
+                    class="elipses"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-more-vertical"
+                    >
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="recipe-details">
-            <h3 @click="showRecipe = true; activeRecipe=recipe;" class="recipe-title">[[ recipe.Title ]]</h3>
-            <button @click="editRecipe=true; activeRecipe=recipe;" class="elipses"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle> <circle cx="12" cy="5" r="1"></circle> <circle cx="12" cy="19" r="1"></circle></svg></button>
-          </div>
+          </details>
         </div>
-      </div>
 
-    </details>
+        <!-- *********************** MODALS AND SIDEBARS *********************** -->
+        <!-- View Modal -->
+        <transition name="fade">
+          <div v-cloak v-if="showRecipe">
+            <div
+              v-if="showRecipe"
+              @click="showRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <RecipeModal :recipe="activeRecipe"> </RecipeModal>
+          </div>
+        </transition>
 
-  </div>
+        <!-- Add Modal -->
+        <transition name="fade">
+          <div v-cloak v-if="addRecipe">
+            <div
+              v-if="addRecipe"
+              @click="addRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <addmodal
+              @submit="submitNewRecipe"
+              @close="addRecipe = false"
+            ></addmodal>
+          </div>
+        </transition>
 
-  <!-- *********************** MODALS AND SIDEBARS *********************** -->
-  <!-- View Modal -->
-  <transition name="fade">
-    <div v-cloak v-if="showRecipe">
-      <div v-if="showRecipe" @click="showRecipe = false" class="modal-backdrop"></div>
-      <RecipeModal :recipe="activeRecipe">
-      </RecipeModal>
-    </div>
-  </transition>
+        <!-- Edit Modal -->
+        <transition name="fade">
+          <div v-cloak v-if="editRecipe">
+            <div
+              v-if="editRecipe"
+              @click="editRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <editmodal
+              :recipe="activeRecipe"
+              @remove="removeRecipe"
+              @submit="submitEditedRecipe"
+              @close="editRecipe = false"
+            ></editmodal>
+          </div>
+        </transition>
 
-  <!-- Add Modal -->
-  <transition name="fade">
-    <div v-cloak v-if="addRecipe">
-      <div v-if="addRecipe" @click="addRecipe = false" class="modal-backdrop"></div>
-      <addmodal @submit="submitNewRecipe" @close="addRecipe = false"></addmodal>
-    </div>
-  </transition>
+        <!-- Toast Message -->
+        <transition name="fade">
+          <div class="toast" v-cloak v-if="showToast">
+            <p>[[ toastMessage ]]</p>
+          </div>
+        </transition>
+      </section>
 
-  <!-- Edit Modal -->
-  <transition name="fade">
-    <div v-cloak v-if="editRecipe">
-      <div v-if="editRecipe" @click="editRecipe = false" class="modal-backdrop"></div>
-      <editmodal :recipe="activeRecipe" @remove="removeRecipe" @submit="submitEditedRecipe" @close="editRecipe = false"></editmodal>
-    </div>
-  </transition>
-
-  <!-- Toast Message -->
-  <transition name="fade">
-    <div class="toast" v-cloak v-if="showToast">
-      <p>[[ toastMessage ]]</p>
-    </div>
-  </transition>
-
-
-</section>
-
-<!-- *********************** FOOTER *********************** -->
-<footer id="footer">
-  <p class="copyright-info">
-    Copyright &copy;2021 M&G Eats. All rights reserved.
-  </p>
-</footer>
-</div>
-
-<!-- AOS insert -->
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-AOS.init();
-</script>
-
+      <!-- *********************** FOOTER *********************** -->
+      <footer id="footer">
+        <p class="copyright-info">
+          Copyright &copy;2021 M&G Eats. All rights reserved.
+        </p>
+      </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -186,134 +219,132 @@ AOS.init();
           toastMessage: "Successfully added recipe!",
           types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
           filters: ["Italian", "Quick"],
-          recipes: [
-            {
-              Index: 0,
-              Title: "Creamed Corn",
-              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: [
-                "(1) Melt butter under medium heat",
-                "(2) Mix flour into melted butter until paste forms",
-                "(3) Slowly mix in half & half, stirring in between to ensure mixture stays thick",
-                "(4) Continue stirring over heat until thickened & smooth",
-                "(5) Add corn & mix for 3 minutes",
-                "(6) Add salt & pepper to taste"
-              ], 
-              TotalTime: "15m",
-              Serves: 6,
-              Tags: ["italian", "modern"],
-              ImageSrc: "https://theblondcook.com/wp-content/uploads/2018/10/easy-creamed-corn-4.jpg",
-              Type: "Side",
-              User: "M&G"
-            },
-            {
-              Index: 1,
-              Title: "Dark Chocolate Brownies",
-              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: [
-                "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted",
-                "(2) Pour mixture into medium bowl",
-                "(3) With a wire whisk, stir in eggs one at a time until well combined",
-                "(4) Stir in vanilla extract",
-                "(5) Add flour & salt, & whisk until well combined",
-                "(6) Stir in remaining 1/3 cup chocolate",
-                "(7) Pour mixture into a greased 8 inch square baking pan",
-                "(8) Bake for 38 - 40 min (or until wooden pick inserted in center comes out slightly sticky)",
-                "(9) Cool in pan on wire rack",
-              ], 
-              TotalTime: "40m",
-              Serves: 16,
-              Tags: [],
-              ImageSrc: "https://assets.epicurious.com/photos/5fca6f8d9014cc9a8df3d074/1:1/w_1600,c_limit/Malted_Forever_Brownies_VOG_final.jpg",
-              Type: "Dessert",
-              User: "M&G"
-            },
-            {
-              Index: 2,
-              Title: "Dark Chocolate Brownies",
-              Ingredients: ["2 cans corn", "3 tbsp butter", "3 tbsp flour", "salt", "pepper"],
-              Instructions: "(1) Melt 1 1/3 cup chocolate, sugar, butter & waterin a small saucepan over low heat until melted. (2) Pour mixture into medium bowl. With a wire whisk, stir in eggs one at a time until well combined. Stir in vanilla extract", 
-              TotalTime: "40m",
-              Serves: 16,
-              Tags: [],
-              ImageSrc: "https://assets.epicurious.com/photos/5fca6f8d9014cc9a8df3d074/1:1/w_1600,c_limit/Malted_Forever_Brownies_VOG_final.jpg",
-              Type: "Dessert",
-              User: "M&G"
-            },
-          ],
+          recipes: [],
           activeRecipe: "",
         },
         methods: {
-          displayToastMessage: function(textToShow) {
+          displayToastMessage: function (textToShow) {
             this.toastMessage = textToShow;
             this.showToast = true;
             setTimeout(() => {
-                this.showToast = false;
+              this.showToast = false;
             }, 1500);
           },
-          submitNewRecipe: function(recipeObj) {
+          submitNewRecipe: function (recipeObj) {
             try {
-              Object.keys(recipeObj).forEach(key => {
-                if(typeof(recipeObj[key]) == "object") {
-                  recipeObj[key] = JSON.stringify(recipeObj[key])
-                };
-              });
+              this.stringifyRecipe(recipeObj);
               //  make call to api and get new index
               var newIndex = 3;
-              recipeObj["Index"] = newIndex
+              recipeObj["Index"] = newIndex;
 
-              this.recipes.push( recipeObj );
-              this.displayToastMessage("Successfully added recipe!")
+              this.recipes.push(recipeObj);
+              this.displayToastMessage("Successfully added recipe!");
             } catch (error) {
               console.log("Failed to add recipe");
               console.log(error);
-              this.displayToastMessage("Failed to add recipe")
+              this.displayToastMessage("Failed to add recipe");
             }
           },
-          submitEditedRecipe: function(updatedRecipe) {
-            try {
-              modifiedObj = this.recipes.find(recipe => recipe.Index == updatedRecipe.Index);
-              Object.assign(modifiedObj, updatedRecipe);
+          submitEditedRecipe: function (updatedRecipe) {
+            console.log("Updating recipe...");
+            console.log(updatedRecipe);
+            originalRecipe = this.recipes.find(
+              (recipe) => recipe.Recipe_id == updatedRecipe.Recipe_id
+            );
 
-              this.displayToastMessage("Successfully updated recipe!")
-            } catch (error) {
-              console.log("Failed to update recipe");
-              console.log(error);
-              this.displayToastMessage("Failed to update recipe")
-            }
+            this.stringifyRecipe(updatedRecipe);
+
+            fetch("/recipes/v1/" + updatedRecipe.Recipe_id, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedRecipe),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  console.log("Failed to update recipe");
+                  this.displayToastMessage("Failed to update recipe");
+                  throw new Error(response["detail"]);
+                } else {
+                  return response;
+                }
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                var updatedRecipeFromServer = data;
+                this.parseRecipe(updatedRecipeFromServer);
+
+                Object.assign(originalRecipe, updatedRecipeFromServer);
+                this.displayToastMessage("Successfully updated recipe!");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           },
-          removeRecipe: function(indexOfRecipeToBeRemoved) {
+          removeRecipe: function (indexOfRecipeToBeRemoved) {
             try {
-              currentIndexOfItem = this.recipes.findIndex(recipe => recipe.Index == indexOfRecipeToBeRemoved);
+              currentIndexOfItem = this.recipes.findIndex(
+                (recipe) => recipe.Recipe_id == indexOfRecipeToBeRemoved
+              );
               this.recipes.splice(currentIndexOfItem, 1);
 
-              this.displayToastMessage("Successfully removed recipe!")
+              this.displayToastMessage("Successfully removed recipe!");
             } catch (error) {
               console.log("Failed to remove recipe");
               console.log(error);
-              this.displayToastMessage("Failed to remove recipe")
+              this.displayToastMessage("Failed to remove recipe");
             }
           },
-          // loadLocations: function () {
-          //   fetch("https://ruoyuchen.pythonanywhere.com/googlesheets", {
-          //     method: "GET",
-          //     mode: "cors",
-          //   })
-          //     .then((response) => response.json())
-          //     .then((data) => {
-          //       console.log(data);
-          //       this.locations = data.locations;
-          //     });
-          // },
+          loadRecipes: function () {
+            fetch("/recipes/v1", {
+              method: "GET",
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                var recipes = data;
+
+                try {
+                  recipes.forEach((recipe) => {
+                    this.parseRecipe(recipe);
+                  });
+                } catch (error) {
+                  console.log("Failed to clean recipes");
+                  console.log(error);
+                }
+                this.recipes = recipes;
+              });
+          },
+          parseRecipe: function (recipeObj) {
+            Object.keys(recipeObj).forEach((key) => {
+              if (typeof recipeObj[key] == "string") {
+                if (recipeObj[key].indexOf("[") > -1) {
+                  recipeObj[key] = JSON.parse(
+                    recipeObj[key].replace(/'/g, '"')
+                  );
+                }
+              }
+            });
+          },
+          stringifyRecipe: function (recipeObj) {
+            Object.keys(recipeObj).forEach((key) => {
+              if (typeof recipeObj[key] == "object") {
+                recipeObj[key] = JSON.stringify(recipeObj[key]);
+              }
+            });
+          },
         },
         watch: {
-          showRecipe: function() {
-              if(this.showRecipe) {
-                  document.documentElement.style.overflow = 'hidden';
-                  return
-              }
-              document.documentElement.style.overflow = 'auto';
-          }
+          showRecipe: function () {
+            if (this.showRecipe) {
+              document.documentElement.style.overflow = "hidden";
+              return;
+            }
+            document.documentElement.style.overflow = "auto";
+          },
+        },
+        mounted: function () {
+          this.loadRecipes();
         },
       });
     </script>

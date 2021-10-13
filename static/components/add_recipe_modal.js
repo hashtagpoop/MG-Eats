@@ -60,11 +60,7 @@ var AddRecipeModal = {
         },
         splitTags: function() {
             if (this.Tags != "") {
-                if (this.Tags.search("\n") > -1) {
-                    var delimeterRegex = /,*\n/;
-                } else {
-                    var delimeterRegex = /,\n*/;
-                }
+                var delimeterRegex = /,|\n/g
                 var newListOfTags = this.Tags.split(delimeterRegex);
                 this.Tags = newListOfTags;
             } else {
@@ -73,11 +69,7 @@ var AddRecipeModal = {
             }
         },
         splitIngredients: function() {
-            if (this.Ingredients.search("\n") > -1) {
-                var delimeterRegex = /,*\n/;
-            } else {
-                var delimeterRegex = /,\n*/;
-            }
+            var delimeterRegex = /,|\n/g;
             var newListOfIngredients = this.Ingredients.split(delimeterRegex);
             newListOfIngredients = newListOfIngredients.filter((currentElement) => {
                 return currentElement.trim().length > 0;
@@ -90,7 +82,7 @@ var AddRecipeModal = {
             var newListOfText = [];
             var text = this.Instructions;
 
-            newListOfInstructions = text.replace(regex, "\n$1").split(/,*\n+/)
+            newListOfInstructions = text.replace(regex, "\n$1").split(/,|\n+/g)
             newListOfInstructions = newListOfInstructions.filter((currentElement) => {
                 return currentElement.trim().length > 0;
             });
