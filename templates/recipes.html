@@ -211,7 +211,7 @@
         },
         delimiters: ["[[", "]]"],
         data: {
-          viewingUser: "M&G",
+          viewingUser: "{{ user }}",
           showRecipe: false,
           addRecipe: false,
           editRecipe: false,
@@ -297,7 +297,7 @@
             }
           },
           loadRecipes: function () {
-            fetch("/recipes/v1", {
+            fetch("/recipes/v1/" + this.viewingUser, {
               method: "GET",
             })
               .then((response) => response.json())

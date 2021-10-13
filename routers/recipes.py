@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session, exc
-from enum import Enum
 from database import SessionLocal
 from typing import List
 from fastapi.templating import Jinja2Templates
@@ -16,10 +15,6 @@ router = APIRouter(
 
 templates = Jinja2Templates(directory="templates")
 print(templates)
-
-
-class UserName(str, Enum):
-    Karen = "Karen"
 
 
 # Dependency
@@ -45,30 +40,28 @@ def create_recipe(recipe: schema_validation.NewRecipe, db: Session = Depends(get
 
 
 @router.get("/", response_model=List[schema_validation.Recipes], status_code=200)
-def get_default_user(request: Request):
+def show_default_user(request: Request):
 
-    context = dict(request=request)
+    context = dict(request=request, user="M&G")
 
     return templates.TemplateResponse("recipes.html", context)
 
 
-@router.get("/v1", response_model=List[schema_validation.Recipes], status_code=200)
-def get_default_user(db: Session = Depends(get_db)):
-    default_user = "M&G"
-    recipes = crud.get_recipes_by_user(db, user=default_user)
+@router.get(
+    "/{user_name}", response_model=List[schema_validation.Recipes], status_code=200
+)
+def show_custom_user(request: Request, user_name: str):
 
-    if recipes is None:
-        raise HTTPException(status_code=404, detail="No recipes for user.")
+    context = dict(request=request, user=user_name)
 
-    recipes = [recipe.__dict__ for recipe in recipes]
-
-    return recipes
+    return templates.TemplateResponse("recipes.html", context)
 
 
 @router.get(
     "/v1/{user_name}", response_model=List[schema_validation.Recipes], status_code=200
 )
-def get_recipes_by_user(user_name: UserName, db: Session = Depends(get_db)):
+def get_recipes_by_user(user_name: str, db: Session = Depends(get_db)):
+    user_name = "m&g" if user_name == "M&amp;G" else user_name.lower()
     recipes = crud.get_recipes_by_user(db, user=user_name)
     if recipes is None:
         raise HTTPException(status_code=404, detail="User not found")
