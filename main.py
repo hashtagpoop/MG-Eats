@@ -1,6 +1,4 @@
-from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -22,6 +20,7 @@ app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 today = dt.datetime.today()
 development = True if os.environ.get("DATABASE_URL") == None else False
+templates = Jinja2Templates(directory="templates")
 
 
 # Dependency
@@ -31,3 +30,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@app.get("/", status_code=200)
+def show_landing(request: Request):
+
+    context = dict(request=request)
+
+    return templates.TemplateResponse("index.html", context)
