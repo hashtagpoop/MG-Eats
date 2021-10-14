@@ -11,7 +11,7 @@ if seeding:
 elif development:
     SQLALCHEMY_DATABASE_URL = "sqlite:///./data/sql_app.db"
 else:
-    SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+    SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL")
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}

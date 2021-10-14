@@ -19,7 +19,6 @@ app.include_router(recipes.router)
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 today = dt.datetime.today()
-development = True if os.environ.get("DATABASE_URL") == None else False
 templates = Jinja2Templates(directory="templates")
 
 
