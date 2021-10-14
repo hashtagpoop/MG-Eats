@@ -8,20 +8,13 @@ var AddRecipeModal = {
         return {
             types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
             users: ["M&G", "Karen"],
-            // Title: "",
-            // Ingredients: "",
-            // Instructions: "",
-            // TotalTime: "",
-            // Serves: "",
-            // Tags: "",
-            // ImageSrc: "",
-            Title: "Bitez Burger",
+            Title: "",
             Ingredients: "",
             Instructions: "",
-            TotalTime: "20min",
-            Serves: 6,
+            TotalTime: "",
+            Serves: "",
             Tags: "",
-            ImageSrc: "https://bitezburger.com/static/images/burger-closeup.jpg",
+            ImageSrc: "",
             Type: null,
             User: null,
         }
@@ -47,8 +40,6 @@ var AddRecipeModal = {
                 User: this.User || this.users[0],
             }
 
-            console.log(newRecipe);
-            console.log(JSON.stringify(newRecipe))
             this.$emit("submit", newRecipe)            
             this.hideModal();
         },

@@ -37,7 +37,7 @@ def create_recipe(db: Session, recipe: schema_validation.Recipes):
         Tags=recipe.Tags,
         ImageSrc=recipe.ImageSrc,
         Type=recipe.Type,
-        User=recipe.User,
+        User=recipe.User.lower(),
     )
     db.add(recipe_object)
     db.commit()

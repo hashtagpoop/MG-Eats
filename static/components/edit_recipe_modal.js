@@ -29,7 +29,7 @@ var EditRecipeModal = {
             this.$emit('close')
         },
         removeRecipe: function() {
-            this.$emit('remove', this.Index);
+            this.$emit('remove', this.Recipe_id);
             this.hideModal();
         },
         submitUpdate: function() {

@@ -14,7 +14,6 @@ router = APIRouter(
 )
 
 templates = Jinja2Templates(directory="templates")
-print(templates)
 
 
 # Dependency
@@ -70,7 +69,7 @@ def get_recipes_by_user(user_name: str, db: Session = Depends(get_db)):
 
 @router.post("/v1", response_model=schema_validation.Recipes, status_code=201)
 def create_recipe(recipe: schema_validation.NewRecipe, db: Session = Depends(get_db)):
-    print(recipe)
+
     recipe_object = crud.get_recipe_by_title_and_user(
         db, recipe_title=recipe.Title, recipe_user=recipe.User
     )
@@ -101,7 +100,7 @@ def update_recipe_by_id(
     return recipes
 
 
-@router.delete("/{recipe_id}", status_code=204)
+@router.delete("/v1/{recipe_id}", status_code=200)
 def delete_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
     try:
         crud.delete_recipe_by_id(db, recipe_id)
