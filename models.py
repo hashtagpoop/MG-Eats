@@ -15,4 +15,4 @@ class Recipes(Base):
     Tags = Column(String)
     ImageSrc = Column(String)
     Type = Column(String)
-    User = Column(Integer)
+    User = Column(String)
