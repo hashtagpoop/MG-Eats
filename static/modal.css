@@ -7,7 +7,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 85%;
-  max-width: 900px;
+  max-width: 1200px;
+  height: 80vh;
+  overflow: scroll;
   z-index: 999;
   border-radius: 10px;
   box-sizing: border-box;
@@ -51,7 +53,7 @@
 }
 
 .recipe-popout hr {
-  margin: 40px 0;
+  margin: 30px 0;
   border: none;
   background-image: linear-gradient(
     to right,
@@ -64,7 +66,11 @@
 
 .recipe-popout .ingredients-list {
   padding-left: 20px;
-  columns: 2;
+  max-height: 300px;
+  overflow: scroll;
+  column-gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .recipe-popout .ingredients-list li {
@@ -73,6 +79,7 @@
   color: var(--whitemocha);
   line-height: 30px;
   letter-spacing: 1.5px;
+  align-self: center;
 }
 
 .recipe-popout .ingredients-list li::before {

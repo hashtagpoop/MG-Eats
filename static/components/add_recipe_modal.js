@@ -146,7 +146,7 @@ var AddRecipeModal = {
 
                 <div>
                     <label for="Instructions">Instructions</label>
-                    <textarea v-model="Instructions" name="Instructions" placeholder="1. Cut the tomatoes" cols="30" rows="5"></textarea>
+                    <textarea v-model="Instructions" name="Instructions" placeholder="1. Cut the tomatoes" cols="30" rows="5" style="height: 300px;"></textarea>
                 </div>
 
                 <div class="two-grid">

@@ -3,7 +3,7 @@
 
 @media screen and (max-width: 900px) {
   .recipe-popout {
-    width: 75%;
+    width: 80%;
   }
   .recipe-popout img {
     max-width: 300px;
