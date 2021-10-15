@@ -108,6 +108,14 @@ body {
   font-weight: bolder;
 }
 
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
 details summary {
   padding: 20px 0;
   padding-left: 30px;
