@@ -12,8 +12,8 @@ var RecipeModal = {
     template:   `
 
     <div class="recipe-popout">
-        <div class="info_and_image_grid">
-        <div>
+        <div class="info-and-image-grid">
+        <div class="recipe-info-container">
             <h1 class="heading">{{ recipe.Title }}</h1>
     
             <div class="recipe-info" style="color: #F7E1D7;font-size: 1.1em;letter-spacing: 2px;line-height: 18px;margin-top:15px;">

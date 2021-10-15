@@ -22,7 +22,7 @@
   color: var(--whitemocha);
 }
 
-.recipe-popout .info_and_image_grid {
+.recipe-popout .info-and-image-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 25px;
@@ -175,7 +175,7 @@ textarea:focus {
 
 textarea {
   line-height: 150%;
-  height: 150px;
+  height: 350px;
   resize: none;
   overflow: scroll;
   font: inherit;

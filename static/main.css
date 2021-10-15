@@ -86,6 +86,7 @@ body {
   padding-left: 0;
   display: flex;
   column-gap: 20px;
+  overflow: scroll;
 }
 
 .filter-list .filter {
@@ -252,6 +253,7 @@ details[open] summary ~ * {
 
 #recipeApp footer p {
   margin: 0;
+  color: var(--whitemocha);
 }
 
 /* ANIMATIONS */

@@ -164,7 +164,7 @@ var EditRecipeModal = {
                     <textarea v-else @change="editedInstructions=true; Instructions = $event.target.value" :value="Instructions.join('\\n')" cols="30" rows="5"></textarea>
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr;column-gap: 30px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));column-gap: 30px;">
                     <input type="submit" value="Update Recipe" class="add_recipe_button" />
                     <input @click="removeRecipe" type="button" value="Delete Recipe" class="delete_recipe_button" />
                     <input @click="hideModal" type="button" value="Close" class="close_button" />
