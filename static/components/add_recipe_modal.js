@@ -146,7 +146,12 @@ var AddRecipeModal = {
                 </div>
 
                 <div>
-                    <label for="Instructions">Instructions</label>
+                    <label for="Instructions">
+                        Instructions
+                        <div class="tooltip">
+                            <p class="tooltip-text" tooltip-text="You can list out instructions separated by '1.' or '1)' or by hitting enter!">?</p>
+                        </div>
+                    </label>
                     <textarea v-model="Instructions" name="Instructions" placeholder="1. Cut the tomatoes" cols="30" rows="5" style="height: 300px;"></textarea>
                 </div>
 

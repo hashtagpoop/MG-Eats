@@ -153,13 +153,23 @@ var EditRecipeModal = {
                 </div>
 
                 <div>
-                    <label for="Ingredients">Ingredients</label>
+                    <label for="Ingredients">
+                        Ingredients
+                        <div class="tooltip">
+                            <p class="tooltip-text" tooltip-text="You can list out ingredients separated by commas or by hitting enter!">?</p>
+                        </div>
+                    </label>
                     <textarea v-if="typeof(Ingredients) == 'string'" @change="editedIngredients=true" name="Ingredients" v-model="Ingredients" cols="30" rows="5"></textarea>
                     <textarea v-else @change="editedIngredients=true; Ingredients = $event.target.value" name="Ingredients" :value="Ingredients.join('\\n')" cols="30" rows="5"></textarea>
                 </div>
 
                 <div>
-                    <label for="Instructions">Instructions</label>
+                    <label for="Instructions">
+                        Instructions
+                        <div class="tooltip">
+                            <p class="tooltip-text" tooltip-text="You can list out instructions separated by '1.' or '1)' or by hitting enter!">?</p>
+                        </div>
+                    </label>
                     <textarea v-if="typeof(Instructions) == 'string'" @change="editedInstructions=true" name="Instructions" v-model="Instructions" cols="30" rows="5"></textarea>
                     <textarea v-else @change="editedInstructions=true; Instructions = $event.target.value" :value="Instructions.join('\\n')" cols="30" rows="5"></textarea>
                 </div>
