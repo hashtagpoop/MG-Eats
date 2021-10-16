@@ -229,6 +229,21 @@ textarea {
   text-align: center;
 }
 
+
+/* INGREDIENT SHOPPING SIDEBAR */
+.ingredients-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  height: 100vh;
+  width: 40%;
+  min-width: 325px;
+  max-width: 600px;
+  background-color: var(--whitemocha);
+}
+
+
 /* TOOLTIPS */
 .tooltip {
   position: relative;

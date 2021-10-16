@@ -54,7 +54,7 @@
               <button @click="addRecipe = true;">&#10010; Add Recipe</button>
             </li>
             <li class="nav-item">
-              <button>Ingredients List</button>
+              <button @click="showIngredientShopping = !showIngredientShopping;">Ingredients List</button>
             </li>
           </ul>
         </nav>
@@ -109,7 +109,7 @@
                   >
                     [[ recipe.Title ]]
                   </h3>
-                  <button
+                  <button v-if="!showIngredientShopping"
                     @click="editRecipe=true; activeRecipe=recipe;"
                     class="elipses"
                   >
@@ -130,6 +130,7 @@
                       <circle cx="12" cy="19" r="1"></circle>
                     </svg>
                   </button>
+                  <button v-else class="addToIngredientListButton" @click="recipesInCart.push(recipe);">Add to Cart</button>
                 </div>
               </div>
             </div>
@@ -181,6 +182,16 @@
           </div>
         </transition>
 
+        <!-- Ingredient Modal -->
+        <transition name="slide">
+          <div v-cloak v-if="showIngredientShopping">
+            <ingredientmodal
+              :cart="recipesInCart"
+              @close="showIngredientShopping = false"
+            ></ingredientmodal>
+          </div>
+        </transition>
+
         <!-- Toast Message -->
         <transition name="fade">
           <div class="toast" v-cloak v-if="showToast">
@@ -201,6 +212,7 @@
     <script src="../static/components/view_recipe_modal.js"></script>
     <script src="../static/components/add_recipe_modal.js"></script>
     <script src="../static/components/edit_recipe_modal.js"></script>
+    <script src="../static/components/ingredient_shopping_list.js"></script>
     <script>
       var app = new Vue({
         el: "#recipeApp",
@@ -208,6 +220,7 @@
           recipemodal: RecipeModal,
           addmodal: AddRecipeModal,
           editmodal: EditRecipeModal,
+          ingredientmodal: IngredientModal,
         },
         delimiters: ["[[", "]]"],
         data: {
@@ -216,6 +229,8 @@
           addRecipe: false,
           editRecipe: false,
           showToast: false,
+          showIngredientShopping: false,
+          recipesInCart: [],
           toastMessage: "Successfully added recipe!",
           types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
           filters: ["Italian", "Quick"],
@@ -360,6 +375,9 @@
                 recipeObj[key] = JSON.stringify(recipeObj[key]);
               }
             });
+          },
+          addToCart: function(recipeObj) {
+            this.recipes.splice(currentIndexOfItem, 1);
           },
         },
         watch: {
