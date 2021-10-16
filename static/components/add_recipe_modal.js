@@ -60,7 +60,8 @@ var AddRecipeModal = {
             }
         },
         splitIngredients: function() {
-            var delimeterRegex = /,|\n/g;
+            const delimeterRegex = /(,|\n)(?![\sa-z])/g
+
             var newListOfIngredients = this.Ingredients.split(delimeterRegex);
             newListOfIngredients = newListOfIngredients.filter((currentElement) => {
                 return currentElement.trim().length > 0;
@@ -69,11 +70,11 @@ var AddRecipeModal = {
             this.Ingredients = newListOfIngredients;
         },
         splitInstructions: function() {
-            const regex = /([\(\s\-]*\d+[\)]*)/g;
+            const regex = /(\d+[\.\)])/g;
             var newListOfText = [];
             var text = this.Instructions;
 
-            newListOfInstructions = text.replace(regex, "\n$1").split(/,|\n+/g)
+            newListOfInstructions = text.replace(regex, "\n$1").split(/\n+/g)
             newListOfInstructions = newListOfInstructions.filter((currentElement) => {
                 return currentElement.trim().length > 0;
             });
