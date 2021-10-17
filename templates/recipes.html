@@ -54,7 +54,9 @@
               <button @click="addRecipe = true;">&#10010; Add Recipe</button>
             </li>
             <li class="nav-item">
-              <button @click="showIngredientShopping = !showIngredientShopping;">Ingredients List</button>
+              <button @click="ableToAddToCart = !ableToAddToCart;">
+                Select Recipes
+              </button>
             </li>
           </ul>
         </nav>
@@ -109,7 +111,8 @@
                   >
                     [[ recipe.Title ]]
                   </h3>
-                  <button v-if="!showIngredientShopping"
+                  <button
+                    v-if="!ableToAddToCart"
                     @click="editRecipe=true; activeRecipe=recipe;"
                     class="elipses"
                   >
@@ -130,7 +133,13 @@
                       <circle cx="12" cy="19" r="1"></circle>
                     </svg>
                   </button>
-                  <button v-else class="addToIngredientListButton" @click="recipesInCart.push(recipe);">Add to Cart</button>
+                  <button
+                    v-else
+                    class="addToIngredientListButton"
+                    @click="recipesInCart.push(recipe);"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -229,6 +238,7 @@
           addRecipe: false,
           editRecipe: false,
           showToast: false,
+          ableToAddToCart: false,
           showIngredientShopping: false,
           recipesInCart: [],
           toastMessage: "Successfully added recipe!",
@@ -376,7 +386,7 @@
               }
             });
           },
-          addToCart: function(recipeObj) {
+          addToCart: function (recipeObj) {
             this.recipes.splice(currentIndexOfItem, 1);
           },
         },

@@ -181,9 +181,9 @@ textarea {
   font: inherit;
 }
 
-.add_recipe_button,
-.delete_recipe_button,
-.close_button {
+.add-recipe-button,
+.delete-recipe-button,
+.close-button {
   background: none;
   border: solid 2px #474544;
   color: #474544;
@@ -202,14 +202,14 @@ textarea {
   transition: all 0.3s;
 }
 
-.add_recipe_button:hover,
-.delete_recipe_button {
+.add-recipe-button:hover,
+.delete-recipe-button {
   background: #474544;
   color: #f2f3eb;
 }
 
-.close_button:hover,
-.delete_recipe_button:hover {
+.close-button:hover,
+.delete-recipe-button:hover {
   background: #df4924;
   color: #f2f3eb;
   border-color: #df4924;
@@ -229,7 +229,6 @@ textarea {
   text-align: center;
 }
 
-
 /* INGREDIENT SHOPPING SIDEBAR */
 .ingredients-sidebar {
   position: fixed;
@@ -237,12 +236,11 @@ textarea {
   right: 0;
   z-index: 999;
   height: 100vh;
-  width: 40%;
+  width: 30%;
   min-width: 325px;
   max-width: 600px;
   background-color: var(--whitemocha);
 }
-
 
 /* TOOLTIPS */
 .tooltip {

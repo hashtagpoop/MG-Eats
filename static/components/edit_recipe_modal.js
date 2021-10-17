@@ -175,9 +175,9 @@ var EditRecipeModal = {
                 </div>
 
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));column-gap: 30px;">
-                    <input type="submit" value="Update Recipe" class="add_recipe_button" />
-                    <input @click="removeRecipe" type="button" value="Delete Recipe" class="delete_recipe_button" />
-                    <input @click="hideModal" type="button" value="Close" class="close_button" />
+                    <input type="submit" value="Update Recipe" class="add-recipe-button" />
+                    <input @click="removeRecipe" type="button" value="Delete Recipe" class="delete-recipe-button" />
+                    <input @click="hideModal" type="button" value="Close" class="close-button" />
                 </div>
             </form>
         </div>

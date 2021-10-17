@@ -25,6 +25,7 @@
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -219,6 +220,8 @@ details[open] summary ~ * {
 
 .recipe-item .recipe-details {
   padding: 20px 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .recipe-item .recipe-title {
@@ -227,6 +230,7 @@ details[open] summary ~ * {
   font-size: 1em;
   cursor: pointer;
   display: inline-block;
+  align-self: center;
 }
 
 .recipe-item .elipses {
@@ -236,22 +240,19 @@ details[open] summary ~ * {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  position: absolute;
-  bottom: 16px;
-  right: 10px;
 }
 
 .recipe-item .addToIngredientListButton {
-    background: none;
-    border: solid 1px var(--deepseagreen);
-    color: var(--deepseagreen);
-    cursor: pointer;
-    display: inline-block;
-    font-size: 0.75em;
-    outline: none;
-    padding: 3px 5px;
-    margin-left: 10px;
-    border-radius: 10px;
+  background: none;
+  border: solid 1px var(--deepseagreen);
+  color: var(--deepseagreen);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.75em;
+  outline: none;
+  padding: 3px 5px;
+  margin-left: 10px;
+  border-radius: 10px;
 }
 
 .modal-backdrop {

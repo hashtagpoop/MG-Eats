@@ -156,8 +156,8 @@ var AddRecipeModal = {
                 </div>
 
                 <div class="two-grid">
-                    <input type="submit" value="Add Recipe" class="add_recipe_button" />
-                    <input @click="hideModal" type="button" value="Close" class="close_button" />
+                    <input type="submit" value="Add Recipe" class="add-recipe-button" />
+                    <input @click="hideModal" type="button" value="Close" class="close-button" />
                 </div>
             </form>
         </div>
