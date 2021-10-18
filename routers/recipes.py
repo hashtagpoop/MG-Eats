@@ -4,6 +4,7 @@ from database import SessionLocal
 from typing import List
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from mgutils import recipe_helpers
 import crud, schema_validation
 
 
@@ -112,3 +113,11 @@ def delete_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, default="Internal server error")
 
     return
+
+
+@router.post("/v1/combine", status_code=200)
+def combine_ingredients(
+    recipes: List[schema_validation.Recipes], db: Session = Depends(get_db)
+):
+    combined_ingredients = recipe_helpers.combine_recipes(recipes)
+    return combined_ingredients

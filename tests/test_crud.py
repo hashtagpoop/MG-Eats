@@ -1,4 +1,9 @@
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import models, schema_validation
+import pickle
+import os
 
 
 def test_add_recipe():
@@ -11,9 +16,6 @@ def test_tag_manipulation():
 
 
 def test_view_recipe():
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-    import os
 
     development = True if os.environ.get("DATABASE_URL") == None else False
 
@@ -29,3 +31,8 @@ def test_view_recipe():
     db = SessionLocal()
     db.query(models.Recipes).filter(models.Recipes.Recipe_id == 1).first()
     db.close()
+
+
+def test_pickled_recipes():
+    with open("./../data/models.pickle", "rb") as file_:
+        pickle.load(file_)

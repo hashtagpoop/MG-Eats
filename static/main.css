@@ -58,10 +58,11 @@ body {
 }
 
 #recipeApp .navbar ul li {
-  margin-left: 30px;
+  margin-left: 20px;
   list-style-type: none;
   font-size: 1.3em;
   align-self: center;
+  position: relative;
 }
 
 #recipeApp .navbar button {
@@ -80,6 +81,27 @@ body {
 #recipeApp .navbar button:hover {
   background-color: #759177;
   transform: translateY(-2px);
+}
+
+.shopping-cart {
+  cursor: pointer;
+}
+
+.shopping-cart-counter {
+  content: "";
+  position: absolute;
+  top: 1px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  background-color: var(--raincloud);
+  color: white;
+  border-radius: 100%;
+  margin: 0;
+  font-size: 0.5em;
+  text-align: center;
+  line-height: 1.4;
+  cursor: pointer;
 }
 
 .filter-list {
@@ -253,6 +275,13 @@ details[open] summary ~ * {
   padding: 3px 5px;
   margin-left: 10px;
   border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.added-to-cart {
+  background-color: var(--morninggreen) !important;
+  color: var(--whitemocha) !important;
+  cursor: unset !important;
 }
 
 .modal-backdrop {
@@ -310,11 +339,9 @@ details[open] summary ~ * {
 
 @keyframes slide {
   0% {
-    opacity: 0;
     transform: translateX(100%);
   }
   100% {
-    opacity: 1;
     transform: translateX(0);
   }
 }

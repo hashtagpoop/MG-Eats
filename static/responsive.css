@@ -21,6 +21,11 @@
     margin: auto;
     display: block;
   }
+  .ingredients-sidebar .close-button {
+    padding: 10px !important;
+    width: 150px !important;
+    margin: 10px auto;
+  }
 }
 
 @media screen and (max-width: 551px) {

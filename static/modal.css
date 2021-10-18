@@ -183,6 +183,7 @@ textarea {
 
 .add-recipe-button,
 .delete-recipe-button,
+.submit-ingredient-button,
 .close-button {
   background: none;
   border: solid 2px #474544;
@@ -203,7 +204,7 @@ textarea {
 }
 
 .add-recipe-button:hover,
-.delete-recipe-button {
+.submit-ingredient-button:hover {
   background: #474544;
   color: #f2f3eb;
 }
@@ -227,6 +228,7 @@ textarea {
   padding: 3px 20px;
   border-radius: 5px;
   text-align: center;
+  z-index: 999;
 }
 
 /* INGREDIENT SHOPPING SIDEBAR */
@@ -234,12 +236,53 @@ textarea {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 999;
+  z-index: 990;
   height: 100vh;
-  width: 30%;
+  width: 35%;
   min-width: 325px;
-  max-width: 600px;
-  background-color: var(--whitemocha);
+  max-width: 400px;
+  border-radius: 10px 0 0 10px;
+  background-color: #f4f4f4;
+  transition: all 0.3s ease-in-out;
+}
+
+.ingredients-sidebar .cart {
+  padding: 0 20px;
+}
+
+.ingredients-sidebar .cart li {
+  margin-bottom: 10px;
+}
+
+.cart-recipe {
+  display: grid;
+  grid-template-columns: 2fr 7fr 1fr;
+}
+
+.cart-recipe img {
+  object-fit: cover;
+  /* Same as width in component */
+  height: 75px;
+}
+
+.cart-recipe .remove-from-cart {
+  text-align: center;
+  align-self: center;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ingredient-shopping-list {
+  padding: 20px;
+  max-height: 600px;
+  overflow: scroll;
+}
+
+.ingredient-shopping-list li {
+  list-style-type: disclosure-closed;
+  margin-left: 20px;
+  padding-left: 10px;
+  margin-bottom: 15px;
 }
 
 /* TOOLTIPS */

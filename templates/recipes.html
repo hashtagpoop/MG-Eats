@@ -58,6 +58,21 @@
                 Select Recipes
               </button>
             </li>
+            <li>
+              <img
+                class="shopping-cart"
+                @click="showIngredientShopping = true;"
+                width="30"
+                src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-vitaly-gorbachev/60/000000/external-shopping-cart-cyber-monday-vitaliy-gorbachev-lineal-vitaly-gorbachev.png"
+              />
+              <p
+                v-if="shoppingCounter > 0"
+                @click="showIngredientShopping = true;"
+                class="shopping-cart-counter"
+              >
+                [[ shoppingCounter ]]
+              </p>
+            </li>
           </ul>
         </nav>
       </header>
@@ -136,9 +151,11 @@
                   <button
                     v-else
                     class="addToIngredientListButton"
-                    @click="recipesInCart.push(recipe);"
+                    :class="recipesInCart.includes(recipe) ? 'added-to-cart' : ''"
+                    @click="addRecipeToCart(recipe)"
                   >
-                    Add to Cart
+                    <span v-if="recipesInCart.includes(recipe)">Added!</span>
+                    <span v-else>Add to Cart</span>
                   </button>
                 </div>
               </div>
@@ -193,12 +210,15 @@
 
         <!-- Ingredient Modal -->
         <transition name="slide">
-          <div v-cloak v-if="showIngredientShopping">
-            <ingredientmodal
-              :cart="recipesInCart"
-              @close="showIngredientShopping = false"
-            ></ingredientmodal>
-          </div>
+          <ingredientmodal
+            v-cloak
+            v-if="showIngredientShopping"
+            :cart="recipesInCart"
+            @close="showIngredientShopping = false"
+            @remove-item="removeFromCart"
+            @fail="displayToastMessage"
+            @success="displayToastMessage"
+          ></ingredientmodal>
         </transition>
 
         <!-- Toast Message -->
@@ -240,11 +260,11 @@
           showToast: false,
           ableToAddToCart: false,
           showIngredientShopping: false,
-          recipesInCart: [],
           toastMessage: "Successfully added recipe!",
           types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
           filters: ["Italian", "Quick"],
           recipes: [],
+          recipesInCart: [],
           activeRecipe: "",
         },
         methods: {
@@ -386,8 +406,23 @@
               }
             });
           },
-          addToCart: function (recipeObj) {
-            this.recipes.splice(currentIndexOfItem, 1);
+          addRecipeToCart: function (recipeObj) {
+            if (this.recipesInCart.includes(recipeObj)) {
+              this.removeFromCart(recipeObj.Recipe_id);
+            } else {
+              this.recipesInCart.push(recipeObj);
+            }
+          },
+          removeFromCart: function (recipeID) {
+            currentIndexOfItemInCart = this.recipesInCart.findIndex(
+              (recipe) => recipe.Recipe_id == recipeID
+            );
+            this.recipesInCart.splice(currentIndexOfItemInCart, 1);
+          },
+        },
+        computed: {
+          shoppingCounter: function () {
+            return this.recipesInCart.length;
           },
         },
         watch: {
