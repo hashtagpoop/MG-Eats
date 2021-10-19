@@ -13,6 +13,7 @@
 @media screen and (max-width: 750px) {
   .recipe-popout {
     max-width: 500px;
+    height: 90vh !important;
   }
   .recipe-popout img {
     width: 300px;
@@ -33,7 +34,8 @@
     flex-direction: column;
   }
   .recipe-popout {
-    padding: 25px;
+    padding: 15px;
+    width: 90%;
   }
   .recipe-popout .info-and-image-grid {
     display: flex;
