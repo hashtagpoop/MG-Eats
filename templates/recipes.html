@@ -178,7 +178,7 @@
 
         <!-- Add Modal -->
         <transition name="fade">
-          <div v-cloak v-if="addRecipe">
+          <div v-cloak v-show="addRecipe">
             <div
               v-if="addRecipe"
               @click="addRecipe = false"
