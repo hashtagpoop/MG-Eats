@@ -23,13 +23,14 @@ var RecipeModal = {
             
             <hr />
     
-            <div>
-            <h1 class="heading" style="font-size: 1.7em;">Ingredients</h1>
-            
-            <p v-if="typeof(recipe.Ingredients) == 'string'"></p>
-            <ul v-else class="ingredients-list">
-                <li v-for="ingredient in recipe.Ingredients">{{ ingredient }}</li>
-            </ul>
+            <div class="translucent-dark-background">
+                <h1 class="heading" style="font-size: 1.7em;">Ingredients</h1>
+                <br>
+                
+                <p v-if="typeof(recipe.Ingredients) == 'string'"></p>
+                <ul style="margin-bottom: 0;" v-else class="ingredients-list">
+                    <li v-for="ingredient in recipe.Ingredients">{{ ingredient }}</li>
+                </ul>
             </div>
             
             <hr style="height: .5px;"/>
@@ -41,7 +42,7 @@ var RecipeModal = {
         </div>
         </div>
         
-        <div class="directions">
+        <div class="directions translucent-dark-background">
             <h1 class="heading" style="font-size: 2em;">Directions:</h1>
 
             <p v-if="typeof(recipe.Instructions) == 'string'">{{ recipe.Instructions }}</p>
