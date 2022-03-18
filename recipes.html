@@ -1,0 +1,443 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="K&R Design" />
+
+    <title>Recipes</title>
+
+    <!-- Custom styles -->
+    <link href="../static/main.css" rel="stylesheet" />
+    <link href="../static/modal.css" rel="stylesheet" />
+    <link href="../static/responsive.css" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./src/assets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./src/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./src/assets/favicon-16x16.png"
+    />
+
+    <!-- AOS styles -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  </head>
+
+  <body style="background-color: var(--minty); margin: 0">
+    <div id="recipeApp" style="background-color: var(--minty); margin: 0">
+      <!-- ******************** HEADER / NAV ******************** -->
+      <header class="container">
+        <h1>Recipes</h1>
+
+        <nav class="navbar">
+          <!-- Desktop Nav -->
+          <ul class="">
+            <li class="nav-item">
+              <a>Home</a>
+            </li>
+            <li class="nav-item">
+              <button @click="addRecipe = true;">&#10010; Add Recipe</button>
+            </li>
+            <li class="nav-item">
+              <button @click="ableToAddToCart = !ableToAddToCart;">
+                Select Recipes
+              </button>
+            </li>
+            <li>
+              <img
+                class="shopping-cart"
+                @click="showIngredientShopping = true;"
+                width="30"
+                src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-vitaly-gorbachev/60/000000/external-shopping-cart-cyber-monday-vitaliy-gorbachev-lineal-vitaly-gorbachev.png"
+              />
+              <p
+                v-if="shoppingCounter > 0"
+                @click="showIngredientShopping = true;"
+                class="shopping-cart-counter"
+              >
+                [[ shoppingCounter ]]
+              </p>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- ************************ FILTERS ************************ -->
+      <section class="container">
+        <ul class="filter-list">
+          <li class="filter">
+            <p class="filter-name">Clear</p>
+            <span class="filter-close">&#9866;</span>
+          </li>
+          <li v-for="filter in filters" class="filter">
+            <p class="filter-name">[[filter]]</p>
+            <span class="filter-close">&#10006;</span>
+          </li>
+          <li class="filter">
+            <p class="filter-name">Add</p>
+            <span class="filter-close">&#10010;</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ************************ RECIPES ************************ -->
+      <section id="recipes" class="container">
+        <div class="recipe-type-section" v-for="mealType in types">
+          <details open>
+            <summary>[[ mealType ]]</summary>
+
+            <div class="recipe-type-items">
+              <div
+                v-for="recipe in recipes"
+                v-if="recipe.Type == mealType"
+                class="recipe-item"
+              >
+                <div
+                  @click="showRecipe = true; activeRecipe=recipe"
+                  class="recipe-spotlight"
+                >
+                  <img
+                    :src="recipe.ImageSrc"
+                    onerror="this.src='../static/assets/404_error.svg';this.style.objectFit='unset'"
+                  />
+                  <div class="hover-information">
+                    <p>Total Time: [[ recipe.TotalTime ]]</p>
+                  </div>
+                </div>
+                <div class="recipe-details">
+                  <h3
+                    @click="showRecipe = true; activeRecipe=recipe;"
+                    class="recipe-title"
+                  >
+                    [[ recipe.Title ]]
+                  </h3>
+                  <button
+                    v-if="!ableToAddToCart"
+                    @click="editRecipe=true; activeRecipe=recipe;"
+                    class="elipses"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-more-vertical"
+                    >
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                  <button
+                    v-else
+                    class="addToIngredientListButton"
+                    :class="recipesInCart.includes(recipe) ? 'added-to-cart' : ''"
+                    @click="addRecipeToCart(recipe)"
+                  >
+                    <span v-if="recipesInCart.includes(recipe)">Added!</span>
+                    <span v-else>Add to Cart</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- *********************** MODALS AND SIDEBARS *********************** -->
+        <!-- View Modal -->
+        <transition name="fade">
+          <div v-cloak v-if="showRecipe">
+            <div
+              v-if="showRecipe"
+              @click="showRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <RecipeModal :recipe="activeRecipe"> </RecipeModal>
+          </div>
+        </transition>
+
+        <!-- Add Modal -->
+        <transition name="fade">
+          <div v-cloak v-show="addRecipe">
+            <div
+              v-if="addRecipe"
+              @click="addRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <addmodal
+              @submit="submitNewRecipe"
+              @close="addRecipe = false"
+            ></addmodal>
+          </div>
+        </transition>
+
+        <!-- Edit Modal -->
+        <transition name="fade">
+          <div v-cloak v-if="editRecipe">
+            <div
+              v-if="editRecipe"
+              @click="editRecipe = false"
+              class="modal-backdrop"
+            ></div>
+            <editmodal
+              :recipe="activeRecipe"
+              @remove="removeRecipe"
+              @submit="submitEditedRecipe"
+              @close="editRecipe = false"
+            ></editmodal>
+          </div>
+        </transition>
+
+        <!-- Ingredient Modal -->
+        <transition name="slide">
+          <ingredientmodal
+            v-cloak
+            v-if="showIngredientShopping"
+            :cart="recipesInCart"
+            @close="showIngredientShopping = false"
+            @remove-item="removeFromCart"
+            @fail="displayToastMessage"
+            @success="displayToastMessage"
+          ></ingredientmodal>
+        </transition>
+
+        <!-- Toast Message -->
+        <transition name="fade">
+          <div class="toast" v-cloak v-if="showToast">
+            <p>[[ toastMessage ]]</p>
+          </div>
+        </transition>
+      </section>
+
+      <!-- *********************** FOOTER *********************** -->
+      <footer id="footer">
+        <p class="copyright-info">
+          Copyright &copy;2021 M&G Eats. All rights reserved.
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="../static/components/view_recipe_modal.js"></script>
+    <script src="../static/components/add_recipe_modal.js"></script>
+    <script src="../static/components/edit_recipe_modal.js"></script>
+    <script src="../static/components/ingredient_shopping_list.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#recipeApp",
+        components: {
+          recipemodal: RecipeModal,
+          addmodal: AddRecipeModal,
+          editmodal: EditRecipeModal,
+          ingredientmodal: IngredientModal,
+        },
+        delimiters: ["[[", "]]"],
+        data: {
+          viewingUser: "{{ user }}",
+          showRecipe: false,
+          addRecipe: false,
+          editRecipe: false,
+          showToast: false,
+          ableToAddToCart: false,
+          showIngredientShopping: false,
+          toastMessage: "Successfully added recipe!",
+          types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
+          filters: ["Italian", "Quick"],
+          recipes: [],
+          recipesInCart: [],
+          activeRecipe: "",
+        },
+        methods: {
+          displayToastMessage: function (textToShow) {
+            this.toastMessage = textToShow;
+            this.showToast = true;
+            setTimeout(() => {
+              this.showToast = false;
+            }, 1500);
+          },
+          submitNewRecipe: function (recipeObj) {
+            this.stringifyRecipe(recipeObj);
+
+            fetch("/recipes/v1", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(recipeObj),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  console.log("Failed to add recipe");
+                  this.displayToastMessage("Failed to add recipe");
+                  throw new Error(response["detail"]);
+                } else {
+                  return response;
+                }
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                var newRecipeFromServer = data;
+                this.parseRecipe(newRecipeFromServer);
+                this.recipes.push(newRecipeFromServer);
+                this.displayToastMessage("Successfully added recipe!");
+              })
+              .catch((error) => {
+                console.log(error);
+                this.displayToastMessage("Failed to add recipe");
+              });
+          },
+          submitEditedRecipe: function (updatedRecipe) {
+            console.log("Updating recipe...");
+            console.log(updatedRecipe);
+            originalRecipe = this.recipes.find(
+              (recipe) => recipe.Recipe_id == updatedRecipe.Recipe_id
+            );
+
+            this.stringifyRecipe(updatedRecipe);
+
+            fetch("/recipes/v1/" + updatedRecipe.Recipe_id, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedRecipe),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  console.log("Failed to update recipe");
+                  this.displayToastMessage("Failed to update recipe");
+                  throw new Error(response["detail"]);
+                } else {
+                  return response;
+                }
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                var updatedRecipeFromServer = data;
+                this.parseRecipe(updatedRecipeFromServer);
+
+                Object.assign(originalRecipe, updatedRecipeFromServer);
+                this.displayToastMessage("Successfully updated recipe!");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          },
+          removeRecipe: function (indexOfRecipeToBeRemoved) {
+            fetch("/recipes/v1/" + indexOfRecipeToBeRemoved, {
+              method: "DELETE",
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  console.log("Failed to remove recipe");
+                  this.displayToastMessage("Failed to remove recipe");
+                  throw new Error("Failed to remove recipe");
+                } else {
+                  return response;
+                }
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                currentIndexOfItem = this.recipes.findIndex(
+                  (recipe) => recipe.Recipe_id == indexOfRecipeToBeRemoved
+                );
+                this.recipes.splice(currentIndexOfItem, 1);
+                this.displayToastMessage("Successfully removed recipe!");
+              })
+              .catch((error) => {
+                console.log(error);
+                this.displayToastMessage("Failed to remove recipe");
+              });
+          },
+          loadRecipes: function () {
+            fetch("/recipes/v1/" + this.viewingUser, {
+              method: "GET",
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                var recipes = data;
+
+                try {
+                  recipes.forEach((recipe) => {
+                    this.parseRecipe(recipe);
+                  });
+                } catch (error) {
+                  console.log("Failed to clean recipes");
+                  console.log(error);
+                }
+                this.recipes = recipes;
+              });
+          },
+          parseRecipe: function (recipeObj) {
+            Object.keys(recipeObj).forEach((key) => {
+              if (typeof recipeObj[key] == "string") {
+                if (recipeObj[key].indexOf("[") > -1) {
+                  recipeObj[key] = JSON.parse(
+                    recipeObj[key].replace(/'/g, '"')
+                  );
+                }
+              }
+            });
+          },
+          stringifyRecipe: function (recipeObj) {
+            Object.keys(recipeObj).forEach((key) => {
+              if (typeof recipeObj[key] == "object") {
+                recipeObj[key] = JSON.stringify(recipeObj[key]);
+              }
+            });
+          },
+          addRecipeToCart: function (recipeObj) {
+            if (this.recipesInCart.includes(recipeObj)) {
+              this.removeFromCart(recipeObj.Recipe_id);
+            } else {
+              this.recipesInCart.push(recipeObj);
+            }
+          },
+          removeFromCart: function (recipeID) {
+            currentIndexOfItemInCart = this.recipesInCart.findIndex(
+              (recipe) => recipe.Recipe_id == recipeID
+            );
+            this.recipesInCart.splice(currentIndexOfItemInCart, 1);
+          },
+        },
+        computed: {
+          shoppingCounter: function () {
+            return this.recipesInCart.length;
+          },
+        },
+        watch: {
+          showRecipe: function () {
+            if (this.showRecipe) {
+              document.documentElement.style.overflow = "hidden";
+              return;
+            }
+            document.documentElement.style.overflow = "auto";
+          },
+        },
+        mounted: function () {
+          this.loadRecipes();
+        },
+      });
+    </script>
+  </body>
+</html>
