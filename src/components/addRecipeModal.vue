@@ -1,12 +1,9 @@
 <script setup>
 import { ref, reactive } from "vue"
 import { store } from "../store"
-defineProps({
-    showNoti: Boolean
-})
+import { useRecipeService } from "../services/recipes";
+
 const recipeObj = reactive({
-    types: ["Breakfast", "Lunch", "Dinner", "Side", "Dessert"],
-    users: ["M&G", "Karen"],
     Title: "",
     Ingredients: "",
     Instructions: "",
@@ -35,7 +32,7 @@ function submitRecipe () {
         User: recipeObj.User || store.users[0],
     }
 
-    // $emit("submit", newRecipe)          
+    useRecipeService.submitRecipe(newRecipe);         
     store.showRecipeModal = false;
 }
 
@@ -74,7 +71,7 @@ function splitInstructions () {
     var newListOfText = [];
     var text = recipeObj.Instructions;
 
-    newListOfInstructions = text.replace(regex, "\n$1").split(/\n+/g)
+    var newListOfInstructions = text.replace(regex, "\n$1").split(/\n+/g)
     newListOfInstructions = newListOfInstructions.filter((currentElement) => {
         return currentElement.trim().length > 0;
     });
@@ -112,14 +109,14 @@ function splitInstructions () {
                     <div>
                         <label for="Type">Type</label>
                         <select @change="selectedType" name="Type" required>
-                            <option v-for="type in types">{{ type }}</option>
+                            <option v-for="type_ in store.types">{{ type_ }}</option>
                         </select>
                     </div>
 
                     <div>
                         <label for="User">User</label>
                         <select @change="selectedUser" name="User" required>
-                            <option v-for="user in users">{{ user }}</option>
+                            <option v-for="user in store.users">{{ user }}</option>
                         </select>
                     </div>
                 </div>
@@ -157,12 +154,106 @@ function splitInstructions () {
 
             <div class="two-grid">
                 <input type="submit" value="Add Recipe" class="add-recipe-button" />
-                <input @click="hideModal" type="button" value="Close" class="close-button" />
+                <input @click="store.showAddRecipeModal = false" type="button" value="Close" class="close-button" />
             </div>
         </form>
     </div>
 </template>
 
 <style scoped>
+label {
+  display: flex;
+}
 
+.addFormContainer {
+  border-radius: 8px;
+  padding: 50px;
+  box-sizing: border-box;
+  background-color: #f6f7fc;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  max-width: 900px;
+  z-index: 999;
+  height: 85vh;
+  overflow: scroll;
+}
+
+.two-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+}
+
+.formTitle {
+  color: #474544;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.addFormContainer input,
+.addFormContainer select,
+.addFormContainer textarea {
+  background: white;
+  border: none;
+  color: #474544;
+  font-size: 17px;
+  letter-spacing: 1px;
+  margin: 10px 0 25px 0;
+  padding: 15px 10px;
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+[type="email"]:focus,
+textarea:focus {
+  outline: none;
+}
+
+textarea {
+  line-height: 25px;
+  height: 350px;
+  resize: none;
+  overflow: scroll;
+  font: inherit;
+}
+
+.add-recipe-button,
+.close-button {
+  background: none;
+  border: solid 2px #474544;
+  color: #474544;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 0.875em;
+  font-weight: bold;
+  outline: none;
+  padding: 20px 35px;
+  text-transform: uppercase;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.add-recipe-button:hover {
+  background: #474544;
+  color: #f2f3eb;
+}
+
+.close-button:hover {
+  background: #df4924;
+  color: #f2f3eb;
+  border-color: #df4924;
+}
 </style>

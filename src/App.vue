@@ -21,17 +21,13 @@ import "animate.css";
       </transition>
     </router-view>
 
-    <Notification :showNoti="showToast"></Notification>
+    <Notification :showNoti="store.showToast"></Notification>
     
     <transition name="slide">
       <ShoppingCart
         v-cloak
-        v-if="showIngredientShopping"
-        :cart="recipesInCart"
-        @close="showIngredientShopping = false"
-        @remove-item="removeFromCart"
-        @fail="displayToastMessage"
-        @success="displayToastMessage"
+        v-if="store.showShoppingCart"
+        :cart="store.recipesInCart"
       ></ShoppingCart>
     </transition>
 
@@ -43,15 +39,6 @@ import "animate.css";
 
 body {
   margin: 0;
-}
-
-ul {
-  padding: 0;
-  display: flex;
-}
-
-ul li {
-  list-style-type: none;
 }
 
 .page {

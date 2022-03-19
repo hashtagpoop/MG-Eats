@@ -1,4 +1,11 @@
 <script setup>
+import { store } from "../store";
+import { useCartService } from "../services/cart"
+
+defineProps({
+    recipe: Object
+})
+
 </script>
 
 <template>
@@ -6,7 +13,7 @@
         class="recipe-item"
     >
         <div
-        @click="showRecipe = true; activeRecipe=recipe"
+        @click="store.showRecipeModal = true; store.activeRecipe=recipe"
         class="recipe-spotlight"
         >
         <img
@@ -14,19 +21,19 @@
             onerror="this.src='../static/assets/404_error.svg';this.style.objectFit='unset'"
         />
         <div class="hover-information">
-            <p>Total Time: [[ recipe.TotalTime ]]</p>
+            <p>Total Time: {{ recipe.TotalTime }}</p>
         </div>
         </div>
         <div class="recipe-details">
         <h3
-            @click="showRecipe = true; activeRecipe=recipe;"
+            @click="store.showRecipeModal = true; store.activeRecipe=recipe;"
             class="recipe-title"
         >
-            [[ recipe.Title ]]
+            {{ recipe.Title }}
         </h3>
         <button
-            v-if="!ableToAddToCart"
-            @click="editRecipe=true; activeRecipe=recipe;"
+            v-if="!store.ableToAddToCart"
+            @click="store.showEditRecipeModal=true; store.activeRecipe=recipe;"
             class="elipses"
         >
             <svg
@@ -49,10 +56,10 @@
         <button
             v-else
             class="addToIngredientListButton"
-            :class="recipesInCart.includes(recipe) ? 'added-to-cart' : ''"
-            @click="addRecipeToCart(recipe)"
+            :class="store.recipesInCart.includes(recipe) ? 'added-to-cart' : ''"
+            @click="useCartService.addRecipeToCart(recipe)"
         >
-            <span v-if="recipesInCart.includes(recipe)">Added!</span>
+            <span v-if="store.recipesInCart.includes(recipe)">Added!</span>
             <span v-else>Add to Cart</span>
         </button>
         </div>

@@ -1,4 +1,5 @@
 <script setup>
+import { store } from "../store"
 defineProps({
     showNoti: Boolean
 })
@@ -9,7 +10,7 @@ defineProps({
     <teleport to="body">
         <transition name="fade">
             <div v-if="showNoti" class="toast">
-            <p>Success!</p>
+                <p>{{ store.toastMessage }}</p>
             </div>
         </transition>
     </teleport>

@@ -16,8 +16,8 @@ const routes = [
         path: '/recipes',
         component: recipes,
         meta: {
-            enterClass: "animate__animated animate__fadeInRight",
-            leaveClass: "animate__animated animate__fadeOutLeft",
+            enterClass: "animate__animated",
+            leaveClass: "animate__animated",
             authRequired: true,
         }
     },

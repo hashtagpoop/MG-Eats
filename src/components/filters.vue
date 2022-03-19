@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <div>
     <ul class="filter-list">
     <li class="filter">
         <p class="filter-name">Clear</p>
@@ -15,7 +16,8 @@
         <p class="filter-name">Add</p>
         <span class="filter-close">&#10010;</span>
     </li>
-    </ul>    
+    </ul>   
+  </div> 
 </template>
 
 <style scoped>

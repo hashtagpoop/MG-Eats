@@ -1,14 +1,18 @@
 <script setup>
-import { ref } from 'vue'
-import ViewRecipeModal from "./components/viewRecipeModal.vue";
-import AddRecipeModal from "./components/addRecipeModal.vue";
-import EditRecipeModal from "./components/editRecipeModal.vue";
-import NavigationBar from "./components/navigationBar.vue";
-import Filters from "./components/filters.vue";
-import RecipeCard from "./components/recipeCard.vue";
-import ShoppingCart from "./components/shoppingCart.vue";
+import { ref, onMounted } from 'vue'
+import ViewRecipeModal from "../components/viewRecipeModal.vue";
+import AddRecipeModal from "../components/addRecipeModal.vue";
+import EditRecipeModal from "../components/editRecipeModal.vue";
+import NavigationBar from "../components/navigationBar.vue";
+import Filters from "../components/filters.vue";
+import RecipeCard from "../components/recipeCard.vue";
 import { store } from "../store"
 import { useRecipeService } from "../services/recipes"
+
+
+onMounted(() => {
+  // useRecipeService.loadRecipes();
+})
 
 </script>
 
@@ -16,19 +20,19 @@ import { useRecipeService } from "../services/recipes"
   <div id="recipeApp" style="background-color: var(--minty); margin: 0">
     <NavigationBar></NavigationBar>
 
-    <Filters></Filters>
+    <Filters class="container"></Filters>
 
 
     <!-- ************************ RECIPES ************************ -->
     <section id="recipes" class="container">
-      <div class="recipe-type-section" v-for="mealType in types">
+      <div class="recipe-type-section" v-for="mealType in store.types">
         <details open>
-          <summary>[[ mealType ]]</summary>
+          <summary>{{ mealType }}</summary>
 
           <div class="recipe-type-items">
             <RecipeCard
-              v-for="recipe in recipes"
-              v-if="recipe.Type == mealType"
+              v-for="recipe in store.recipes.filter(recipe => recipe.Type == mealType)"
+              :recipe="recipe"
             >
             </RecipeCard>
           </div>
@@ -36,69 +40,47 @@ import { useRecipeService } from "../services/recipes"
       </div>
 
       <!-- *********************** MODALS AND SIDEBARS *********************** -->
+
       <!-- View Modal -->
       <transition name="fade">
-        <div v-cloak v-if="showRecipe">
+        <div v-cloak v-if="store.showRecipeModal">
           <div
-            v-if="showRecipe"
-            @click="showRecipe = false"
+            v-if="store.showRecipeModal"
+            @click="store.showRecipeModal = false"
             class="modal-backdrop"
           ></div>
-          <ViewRecipeModal :recipe="activeRecipe"> </ViewRecipeModal>
+          <ViewRecipeModal :recipe="store.activeRecipe"></ViewRecipeModal>
         </div>
       </transition>
 
       <!-- Add Modal -->
       <transition name="fade">
-        <div v-cloak v-show="addRecipe">
+        <div v-cloak v-show="store.showAddRecipeModal">
           <div
-            v-if="addRecipe"
-            @click="addRecipe = false"
+            v-if="store.showAddRecipeModal"
+            @click="store.showAddRecipeModal = false"
             class="modal-backdrop"
           ></div>
           <AddRecipeModal
-            @submit="submitNewRecipe"
-            @close="addRecipe = false"
+            @submit="useRecipeService.submitNewRecipe"
           ></AddRecipeModal>
         </div>
       </transition>
 
       <!-- Edit Modal -->
       <transition name="fade">
-        <div v-cloak v-if="editRecipe">
+        <div v-cloak v-if="store.showEditRecipeModal">
           <div
-            v-if="editRecipe"
-            @click="editRecipe = false"
+            v-if="store.showEditRecipeModal"
+            @click="store.showEditRecipeModal = false"
             class="modal-backdrop"
           ></div>
           <EditRecipeModal
-            :recipe="activeRecipe"
-            @remove="removeRecipe"
-            @submit="submitEditedRecipe"
-            @close="editRecipe = false"
+            :recipe="store.activeRecipe"
           ></EditRecipeModal>
         </div>
       </transition>
 
-      <!-- Sidebar -->
-      <transition name="slide">
-        <ShoppingCart
-          v-cloak
-          v-if="showIngredientShopping"
-          :cart="recipesInCart"
-          @close="showIngredientShopping = false"
-          @remove-item="removeFromCart"
-          @fail="displayToastMessage"
-          @success="displayToastMessage"
-        ></ShoppingCart>
-      </transition>
-
-      <!-- Toast Message -->
-      <transition name="fade">
-        <div class="toast" v-cloak v-if="showToast">
-          <p>[[ toastMessage ]]</p>
-        </div>
-      </transition>
     </section>
 
     <!-- *********************** FOOTER *********************** -->

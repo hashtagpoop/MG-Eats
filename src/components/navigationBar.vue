@@ -1,4 +1,5 @@
 <script setup>
+import { store } from "../store"
 </script>
 
 <template>
@@ -12,26 +13,26 @@
           <router-link to="/">Home</router-link>
         </li>
         <li class="nav-item">
-          <button @click="addRecipe = true;">&#10010; Add Recipe</button>
+          <button @click="store.showAddRecipeModal = true;">&#10010; Add Recipe</button>
         </li>
         <li class="nav-item">
-          <button @click="ableToAddToCart = !ableToAddToCart;">
+          <button @click="store.ableToAddToCart = !store.ableToAddToCart;">
             Select Recipes
           </button>
         </li>
         <li>
           <img
             class="shopping-cart"
-            @click="showIngredientShopping = true;"
+            @click="store.showShoppingCart = true;"
             width="30"
             src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-vitaly-gorbachev/60/000000/external-shopping-cart-cyber-monday-vitaliy-gorbachev-lineal-vitaly-gorbachev.png"
           />
           <p
-            v-if="shoppingCounter > 0"
-            @click="showIngredientShopping = true;"
+            v-if="store.shoppingCounter > 0"
+            @click="store.showShoppingCart = true;"
             class="shopping-cart-counter"
           >
-            [[ shoppingCounter ]]
+            {{ store.shoppingCounter }}
           </p>
         </li>
       </ul>
